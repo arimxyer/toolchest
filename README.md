@@ -22,13 +22,13 @@ The skill uses a hybrid approach: bundled reference docs for fast, detailed answ
 ### Claude Code (plugin)
 
 ```bash
-/plugin marketplace add arimayer/pixijs-skill
+/plugin marketplace add arimxyer/pixijs-skill
 ```
 
 ### Claude Code (manual)
 
 ```bash
-git clone https://github.com/arimayer/pixijs-skill.git ~/.claude/skills/pixijs
+git clone https://github.com/arimxyer/pixijs-skill.git ~/.claude/skills/pixijs
 ```
 
 ### Other Agent Skills-compatible tools
