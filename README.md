@@ -31,6 +31,12 @@ The skill uses a hybrid approach: bundled reference docs for fast, detailed answ
 git clone https://github.com/arimxyer/pixijs-skill.git ~/.claude/skills/pixijs
 ```
 
+### Skills CLI (works with Claude Code, Cursor, Gemini CLI, and 45+ agents)
+
+```bash
+npx skills add arimxyer/pixijs-skill
+```
+
 ### Other Agent Skills-compatible tools
 
 Follow your tool's instructions for installing skills from GitHub repositories.
