@@ -1,0 +1,13 @@
+{
+  "name": "pixijs",
+  "description": "PixiJS v8 development guide with bundled API references, code patterns, and best practices from official documentation.",
+  "version": "1.0.0",
+  "author": {
+    "name": "arimayer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arimayer/pixijs-skill"
+  },
+  "license": "Apache-2.0"
+}
