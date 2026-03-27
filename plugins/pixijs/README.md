@@ -22,7 +22,7 @@ The skill uses a hybrid approach: bundled reference docs for fast, detailed answ
 The skill triggers automatically when you work with PixiJS code, or invoke it directly:
 
 ```
-/pixijs:guide how do I use ParticleContainer for a particle system?
+/pixijs:pixijs how do I use ParticleContainer for a particle system?
 ```
 
 ## Updating the docs

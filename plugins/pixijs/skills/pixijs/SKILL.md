@@ -1,5 +1,5 @@
 ---
-name: guide
+name: pixijs
 description: PixiJS v8 development guide with bundled API references, code patterns, and best practices from official documentation. Use this skill whenever the user is working with PixiJS, imports from 'pixi.js', builds 2D graphics/games on HTML canvas, uses WebGL/WebGPU for 2D rendering, asks about PixiJS APIs (Sprite, Container, Graphics, Ticker, Application, etc.), needs help with the PixiJS ecosystem (pixi-react, pixi-ui, pixi-sound, pixi-filters, AssetPack, Layout), is migrating from PixiJS v7 to v8, or mentions any PixiJS class names like ParticleContainer, BitmapText, TilingSprite, NineSliceSprite, RenderLayer, or RenderGroup. Also trigger when users ask about 2D sprite rendering, texture management, scene graphs for 2D games, or interactive canvas graphics — these are PixiJS's core domain even if the user doesn't name it explicitly.
 argument-hint: [question]
 allowed-tools: Read, WebFetch, Grep, Glob

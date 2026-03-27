@@ -24,7 +24,7 @@ npx skills add arimxyer/toolchest
 
 | Plugin | Skill | Description |
 |--------|-------|-------------|
-| `pixijs` | `/pixijs:guide` | PixiJS v8 development guide with bundled API references, code patterns, and best practices |
+| `pixijs` | `/pixijs:pixijs` | PixiJS v8 development guide with bundled API references, code patterns, and best practices |
 
 ## License
 
