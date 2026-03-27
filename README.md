@@ -23,10 +23,10 @@ The skill uses a hybrid approach: bundled reference docs for fast, detailed answ
 
 ```bash
 # Add the marketplace
-/plugin marketplace add arimxyer/pixijs-skill
+/plugin marketplace add arimxyer/toolchest
 
 # Install the plugin
-/plugin install pixijs@pixijs-skill
+/plugin install pixijs@toolchest
 ```
 
 After installation, the skill triggers automatically or can be invoked with `/pixijs:guide`.
@@ -34,15 +34,15 @@ After installation, the skill triggers automatically or can be invoked with `/pi
 ### Skills CLI (works with Claude Code, Cursor, Gemini CLI, and 45+ agents)
 
 ```bash
-npx skills add arimxyer/pixijs-skill
+npx skills add arimxyer/toolchest
 ```
 
 ### Manual install
 
 ```bash
-git clone https://github.com/arimxyer/pixijs-skill.git
+git clone https://github.com/arimxyer/toolchest.git
 # Copy the skill to your personal skills directory
-cp -r pixijs-skill/plugins/pixijs/skills/guide ~/.claude/skills/pixijs
+cp -r toolchest/plugins/pixijs/skills/guide ~/.claude/skills/pixijs
 ```
 
 ## Usage
@@ -64,7 +64,7 @@ You can also invoke it directly:
 ## Structure
 
 ```
-pixijs-skill/
+toolchest/
 ├── .claude-plugin/
 │   └── marketplace.json
 ├── plugins/
