@@ -7,7 +7,7 @@ A comprehensive [Agent Skill](https://agentskills.io) for PixiJS v8 development.
 When you're working with PixiJS, this skill gives your AI agent access to:
 
 - **Core API references** — Application, Container, Sprite, Graphics, Text, Ticker, Assets, and more
-- **Scene graph & rendering** — Render groups, render layers, render loop, performance optimization
+- **Scene graph & rendering** �� Render groups, render layers, render loop, performance optimization
 - **Events & interaction** — Pointer, mouse, touch events, hit areas, accessibility
 - **Visual effects** — Filters, blend modes, color, math utilities, textures
 - **Asset management** — Loading, bundles, manifests, compressed textures, SVGs
@@ -19,17 +19,17 @@ The skill uses a hybrid approach: bundled reference docs for fast, detailed answ
 
 ## Installation
 
-### Claude Code (plugin)
+### Claude Code (plugin marketplace)
 
 ```bash
+# Add the marketplace
 /plugin marketplace add arimxyer/pixijs-skill
+
+# Install the plugin
+/plugin install pixijs@pixijs-skill
 ```
 
-### Claude Code (manual)
-
-```bash
-git clone https://github.com/arimxyer/pixijs-skill.git ~/.claude/skills/pixijs
-```
+After installation, the skill triggers automatically or can be invoked with `/pixijs:guide`.
 
 ### Skills CLI (works with Claude Code, Cursor, Gemini CLI, and 45+ agents)
 
@@ -37,9 +37,13 @@ git clone https://github.com/arimxyer/pixijs-skill.git ~/.claude/skills/pixijs
 npx skills add arimxyer/pixijs-skill
 ```
 
-### Other Agent Skills-compatible tools
+### Manual install
 
-Follow your tool's instructions for installing skills from GitHub repositories.
+```bash
+git clone https://github.com/arimxyer/pixijs-skill.git
+# Copy the skill to your personal skills directory
+cp -r pixijs-skill/plugins/pixijs/skills/guide ~/.claude/skills/pixijs
+```
 
 ## Usage
 
@@ -54,7 +58,7 @@ The skill triggers automatically when you:
 You can also invoke it directly:
 
 ```
-/pixijs how do I use ParticleContainer for a particle system?
+/pixijs:guide how do I use ParticleContainer for a particle system?
 ```
 
 ## Structure
@@ -62,21 +66,26 @@ You can also invoke it directly:
 ```
 pixijs-skill/
 ├── .claude-plugin/
-│   └── plugin.json
-├── skills/
+│   └── marketplace.json
+├── plugins/
 │   └── pixijs/
-│       ├── SKILL.md
-│       └── references/
-│           ├── index.md
-│           ├── getting-started.md
-│           ├── architecture.md
-│           ├── application.md
-│           ├── scene-objects.md
-│           ├── text.md
-│           ├── visual-effects.md
-│           ├── interaction.md
-│           ├── assets.md
-│           └── migration.md
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       └── skills/
+│           └── guide/
+│               ├── SKILL.md
+│               └── references/
+│                   ├── index.md
+│                   ├── getting-started.md
+│                   ├��─ architecture.md
+│                   ├── application.md
+│                   ├── scene-objects.md
+│                   ├── text.md
+│                   ├── visual-effects.md
+│                   ├── interaction.md
+│                   ├── assets.md
+│                   └─�� migration.md
+├── README.md
 └── LICENSE
 ```
 

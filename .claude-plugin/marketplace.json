@@ -1,0 +1,21 @@
+{
+  "name": "pixijs-skill",
+  "owner": {
+    "name": "arimxyer"
+  },
+  "metadata": {
+    "description": "PixiJS v8 development guide with bundled API references, code patterns, and best practices"
+  },
+  "plugins": [
+    {
+      "name": "pixijs",
+      "source": "./plugins/pixijs",
+      "description": "PixiJS v8 development guide with bundled API references, code patterns, and best practices from official documentation.",
+      "version": "1.0.0",
+      "author": {
+        "name": "arimxyer"
+      },
+      "license": "Apache-2.0"
+    }
+  ]
+}
