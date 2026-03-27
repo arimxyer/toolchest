@@ -1,107 +1,31 @@
-# PixiJS Agent Skill
+# Toolchest
 
-A comprehensive [Agent Skill](https://agentskills.io) for PixiJS v8 development. Provides bundled API references, code patterns, and best practices from official PixiJS documentation.
-
-## What it does
-
-When you're working with PixiJS, this skill gives your AI agent access to:
-
-- **Core API references** — Application, Container, Sprite, Graphics, Text, Ticker, Assets, and more
-- **Scene graph & rendering** �� Render groups, render layers, render loop, performance optimization
-- **Events & interaction** — Pointer, mouse, touch events, hit areas, accessibility
-- **Visual effects** — Filters, blend modes, color, math utilities, textures
-- **Asset management** — Loading, bundles, manifests, compressed textures, SVGs
-- **v7 to v8 migration** — Complete migration guide with side-by-side code comparisons
-- **Ecosystem libraries** — React integration, Layout, Spine, Filters, Sound, UI, AssetPack
-- **Three.js interop** — Sharing WebGL contexts between PixiJS and Three.js
-
-The skill uses a hybrid approach: bundled reference docs for fast, detailed answers, with fallback to fetching live documentation from [pixijs.com/llms.txt](https://pixijs.com/llms.txt) when deeper detail is needed.
+A plugin marketplace for [Claude Code](https://claude.ai/code) and other [Agent Skills](https://agentskills.io)-compatible tools.
 
 ## Installation
 
-### Claude Code (plugin marketplace)
+### Claude Code
 
 ```bash
-# Add the marketplace
+# Add the marketplace (one-time)
 /plugin marketplace add arimxyer/toolchest
 
-# Install the plugin
-/plugin install pixijs@toolchest
+# Browse and install plugins
+/plugin install <plugin-name>@toolchest
 ```
 
-After installation, the skill triggers automatically or can be invoked with `/pixijs:guide`.
-
-### Skills CLI (works with Claude Code, Cursor, Gemini CLI, and 45+ agents)
+### Skills CLI
 
 ```bash
 npx skills add arimxyer/toolchest
 ```
 
-### Manual install
+## Available Plugins
 
-```bash
-git clone https://github.com/arimxyer/toolchest.git
-# Copy the skill to your personal skills directory
-cp -r toolchest/plugins/pixijs/skills/guide ~/.claude/skills/pixijs
-```
-
-## Usage
-
-The skill triggers automatically when you:
-
-- Work with PixiJS code or `import` from `'pixi.js'`
-- Ask about PixiJS APIs (Sprite, Container, Graphics, Ticker, etc.)
-- Ask about the PixiJS ecosystem (pixi-react, pixi-filters, pixi-sound, etc.)
-- Migrate from PixiJS v7 to v8
-- Work with 2D canvas graphics, WebGL/WebGPU 2D rendering
-
-You can also invoke it directly:
-
-```
-/pixijs:guide how do I use ParticleContainer for a particle system?
-```
-
-## Structure
-
-```
-toolchest/
-├── .claude-plugin/
-│   └── marketplace.json
-├── plugins/
-│   └── pixijs/
-│       ├── .claude-plugin/
-│       │   └── plugin.json
-│       └── skills/
-│           └── guide/
-│               ├── SKILL.md
-│               └── references/
-│                   ├── index.md
-│                   ├── getting-started.md
-│                   ├��─ architecture.md
-│                   ├── application.md
-│                   ├── scene-objects.md
-│                   ├── text.md
-│                   ├── visual-effects.md
-│                   ├── interaction.md
-│                   ├── assets.md
-│                   └─�� migration.md
-├── README.md
-└── LICENSE
-```
-
-## Updating the docs
-
-The bundled references are a snapshot of PixiJS v8 documentation from [pixijs.com/llms-medium.txt](https://pixijs.com/llms-medium.txt). To refresh:
-
-```bash
-curl -sL https://pixijs.com/llms-medium.txt -o /tmp/pixijs-medium.txt
-# Then split by topic into the references/ directory
-```
-
-The skill also falls back to fetching live docs when bundled content isn't sufficient.
+| Plugin | Skill | Description |
+|--------|-------|-------------|
+| `pixijs` | `/pixijs:guide` | PixiJS v8 development guide with bundled API references, code patterns, and best practices |
 
 ## License
 
 Apache 2.0 — see [LICENSE](LICENSE).
-
-Documentation content is sourced from the [PixiJS project](https://pixijs.com/) under the MIT license.
