@@ -1,6 +1,6 @@
 # Library Dossier Template
 
-Use this folder as a starting point when adding a new library to the `animation-library` skill or when forking the corpus for a different domain.
+Use this folder as a starting point when adding a new library to the `pick-library` skill or when forking the corpus for a different domain. The `scaffold-library` skill (this folder's parent) automates most of what's described below — prefer invoking `/animation-library:scaffold-library <slug>` over hand-copying.
 
 ## Layout
 
@@ -20,15 +20,17 @@ Use this folder as a starting point when adding a new library to the `animation-
 
 ## How to add a new library
 
-Working from the skill root (`skills/animation-library/`):
+Automated: invoke `/animation-library:scaffold-library <slug>` — the scaffold-library skill reads this template, fetches current docs, and writes all the files + index rows for you.
 
-1. Copy this `template/` folder to `<category>/<slug>/` — `<category>` is `motion` or `rendering`, `<slug>` is the kebab-case library name.
+Manual fallback, working from the scaffold-library skill root (`skills/scaffold-library/`):
+
+1. Copy this `template/` folder to `../pick-library/<category>/<slug>/` — `<category>` is `motion` or `rendering`, `<slug>` is the kebab-case library name.
 2. Delete the copy's `README.md` (that's this meta-file — it shouldn't live inside a library folder).
 3. Keep every other filename exactly as shown so cross-references work.
 4. Replace every `{{placeholder}}` in the files. Placeholders use double curly braces so they are easy to grep (`grep -r "{{" .`).
 5. Delete any section that doesn't apply (e.g. remove the "Minimal example" row from `dossier.md`'s "See also" if you didn't author one).
-6. Add a row to `../SKILL.md`'s **Library index** table, and a row to `../COMPARISON.md`'s matrix.
-7. Update `../SKILL.md`'s `description` frontmatter to include the new library name in the trigger list.
+6. Add a row to `../../pick-library/SKILL.md`'s **Library index** table, and a row to `../../pick-library/COMPARISON.md`'s matrix.
+7. Update `../../pick-library/SKILL.md`'s `description` frontmatter to include the new library name in the trigger list.
 
 ## Format conventions
 
@@ -72,6 +74,6 @@ Flat list of honest limitations: paid tiers, browser support gaps, maintenance c
 
 ## Agent Skills compliance
 
-Each `<slug>/dossier.md` carries a YAML frontmatter block (`name`, `description`) so it satisfies the [Agent Skills](https://agentskills.io) single-skill format even when read in isolation. Inside this plugin the file is named `dossier.md` (not `SKILL.md`) so Claude Code's skill discovery treats it as reference content under the top-level `animation-library` skill rather than 30 separate skills.
+Each `<slug>/dossier.md` carries a YAML frontmatter block (`name`, `description`) so it satisfies the [Agent Skills](https://agentskills.io) single-skill format even when read in isolation. Inside this plugin the file is named `dossier.md` (not `SKILL.md`) so Claude Code's skill discovery treats it as reference content under the top-level `pick-library` skill rather than 30 separate skills.
 
 If you fork this corpus into a standalone multi-skill repo — e.g. one agentskills.io skill per library — rename each `dossier.md` back to `SKILL.md` and move each `<slug>/` to the top level of your skills directory. The internal structure is already compliant.

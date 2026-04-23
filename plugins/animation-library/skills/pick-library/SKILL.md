@@ -1,15 +1,15 @@
 ---
-name: animation-library
-description: Decision-support dossier for picking a JS/TS animation or rendering library. Use this skill whenever the user is choosing, comparing, evaluating, or scaffolding a motion / animation / rendering / canvas / WebGL / WebGPU / 3D library for a web project. Covers 30 libraries across two buckets — motion (GSAP, Motion, react-spring, Anime.js, Popmotion, WAAPI, View Transitions, Lenis, Theatre.js, AutoAnimate, use-gesture, animate.css, tailwindcss-animate, tailwindcss-motion, tw-animate-css, react-transition-group) and rendering (three.js, react-three-fiber, react-three-rapier, Babylon.js, PixiJS, @pixi/react, Konva, react-konva, Fabric.js, p5.js, Phaser, Lottie, Rive, Remotion). Trigger when the user asks "what should I use for <animation/canvas/3D/scroll/physics/designer-asset/timeline>", when comparing two of these libraries, when evaluating bundle size / license / maintenance posture, when picking a stack for a creative/agency/interactive site, when building a portfolio with motion, when scaffolding scroll-driven / SVG / timeline / physics / gesture / video-export / designer-runtime / video-game work, or when the user mentions any of the 30 library names by itself.
+name: pick-library
+description: Decision-support dossier for picking a JS/TS animation or rendering library. Use this skill whenever the user is choosing, comparing, evaluating, or scaffolding a motion / animation / rendering / canvas / WebGL / WebGPU / 3D library for a web project. Covers 30 libraries across two buckets — motion (GSAP, Motion, react-spring, Anime.js, Popmotion, WAAPI, View Transitions, Lenis, Theatre.js, AutoAnimate, use-gesture, animate.css, tailwindcss-animate, tailwindcss-motion, tw-animate-css, react-transition-group) and rendering (three.js, react-three-fiber, react-three-rapier, Babylon.js, PixiJS, @pixi/react, Konva, react-konva, Fabric.js, p5.js, Phaser, Lottie, Rive, Remotion). Trigger when the user asks "what should I use for <animation/canvas/3D/scroll/physics/designer-asset/timeline>", when comparing two of these libraries, when evaluating bundle size / license / maintenance posture, when picking a stack for a creative/agency/interactive site, when building a portfolio with motion, when scaffolding scroll-driven / SVG / timeline / physics / gesture / video-export / designer-runtime / video-game work, or when the user mentions any of the 30 library names by itself. Before returning guidance, this skill performs a freshness check on each consumed dossier by comparing its recorded `Version researched` against the library's current npm version, and invokes the `refresh-library` skill if the dossier is stale.
 argument-hint: [question or library name]
-allowed-tools: Read, Grep, Glob
+allowed-tools: Read, Grep, Glob, Bash, WebFetch
 ---
 
 # Animation + Rendering Library Dossier
 
 Decision-support material for choosing a JS/TS motion or rendering library. 30 libraries researched with verified sources, organised into two buckets: **motion** (16) and **rendering** (14).
 
-If invoked directly via `/animation-library`, use `$ARGUMENTS` as the user's question to guide which dossier(s) to load.
+If invoked directly via `/animation-library:pick-library`, use `$ARGUMENTS` as the user's question to guide which dossier(s) to load.
 
 ## How to use this skill
 
@@ -20,10 +20,15 @@ The content is organised as:
 - **`motion/<slug>/references/*.md`** — deeper dives: `overview.md`, `api.md`, `differentiators.md`, `drawbacks.md`, `sources.md`.
 - **`motion/<slug>/assets/`** — minimal runnable examples (where present).
 - **`rendering/<slug>/…`** — same shape for rendering libraries.
-- **[template/](template/README.md)** — skeleton scaffolding for adding a new library. Read this before authoring a new dossier; it documents the format conventions the existing 30 dossiers follow.
+
+For adding a new library or refreshing a stale dossier, use sibling skills in the same plugin:
+
+- **`/animation-library:scaffold-library <slug>`** — create a new dossier from the template, fetch current docs, wire it into this skill's index and COMPARISON.md.
+- **`/animation-library:refresh-library <slug>`** — re-verify an existing dossier against npm/release notes; dispatched automatically by Step 0 below when a version mismatch is detected.
 
 ### Workflow
 
+0. **Freshness check.** For each dossier you're about to consume, read its Quick-facts `Version researched` row. If the value is a semver (`X.Y.Z (released YYYY-MM-DD)`), resolve the library's current npm package (use the `name` field in the dossier's frontmatter or the slug as a hint) and fetch `https://registry.npmjs.org/<package>/latest` with Bash (`curl -s … | jq -r .version`) or WebFetch. If npm's latest differs from the dossier, invoke the `refresh-library` skill for that slug before using the dossier. Skip this check when `Version researched` is non-semver (e.g. "Web standard (no SPDX)" for WAAPI / view-transitions-api, where there is no npm package). If npm is unreachable or the check fails, proceed with the existing dossier and note the uncertainty in your reply.
 1. **If the user named a specific library**, read that library's `dossier.md` first. Pull references only if the dossier's "See also" points at one you need.
 2. **If the user is choosing between options** (e.g. "which library for scroll-driven animations?", "what do I pair with R3F?"), read `COMPARISON.md` first — it has matrices and cluster writeups that frame the trade-offs. Then load the 2–3 dossiers that are live candidates.
 3. **If the user is scaffolding fresh work** (e.g. "I'm building a portfolio, what should I use?"), read `COMPARISON.md`'s Part 2 narrative synthesis — it contains curated stack recommendations by use case.
@@ -79,10 +84,10 @@ The content is organised as:
 
 ## Standards
 
-This corpus follows the [Agent Skills](https://agentskills.io) specification — each per-library folder is a self-contained skill (`dossier.md` front-matter + `references/` + `assets/`) that can be consumed in isolation or published as a standalone skill by renaming `dossier.md` back to `SKILL.md`. Inside this plugin the file is named `dossier.md` rather than `SKILL.md` so Claude Code's skill discovery surfaces only the top-level `animation-library` skill instead of 30 separately-triggered ones.
+This corpus follows the [Agent Skills](https://agentskills.io) specification — each per-library folder is a self-contained skill (`dossier.md` front-matter + `references/` + `assets/`) that can be consumed in isolation or published as a standalone skill by renaming `dossier.md` back to `SKILL.md`. Inside this plugin the file is named `dossier.md` rather than `SKILL.md` so Claude Code's skill discovery surfaces only the top-level `pick-library` skill instead of 30 separately-triggered ones.
 
-If you want to add a new library to this corpus, or fork it for a different domain (e.g. a state-management library dossier, an HTTP-client dossier), start from **[template/](template/README.md)**. The template README documents the format conventions — citation discipline, Quick-facts table layout, bundle-size sourcing conventions, `differentiators.md` structure, `drawbacks.md` structure — so contributed dossiers match the shape of the existing 30.
+To add a new library to this corpus, invoke the sibling `scaffold-library` skill — it reads the template bundled there, fetches current docs, and writes the new dossier + index rows for you. The template's own README (under `../scaffold-library/template/README.md`) documents the format conventions (citation discipline, Quick-facts layout, bundle-size sourcing, differentiators / drawbacks structure) for anyone contributing manually or forking the corpus into a different domain.
 
 ## Freshness
 
-These dossiers are a snapshot researched in April 2026. Version numbers, bundle sizes, and maintenance posture will drift. Per-library `references/sources.md` links to the primary source — re-verify there if the user needs a *current* figure. Use `find-docs` or context7 MCP to refresh any single library.
+Each dossier's Quick-facts `Version researched` row is the canonical freshness signal; Step 0 of the Workflow above compares it against npm before every consumption. If you need to refresh ad-hoc — e.g. before quoting a dossier in an external write-up — invoke `/animation-library:refresh-library <slug>` directly.
