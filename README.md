@@ -25,7 +25,9 @@ npx skills add arimxyer/toolchest
 | Plugin | Skill | Description |
 |--------|-------|-------------|
 | `pixijs` | `/pixijs:pixijs` | PixiJS v8 development guide with bundled API references, code patterns, and best practices |
-| `animation-library` | `/animation-library:animation-library` | Decision-support dossier for picking a JS/TS motion or rendering library — 30 libraries with comparison matrix |
+| `animation-library` | `/animation-library:pick-library` | Selector over 30 JS/TS motion + rendering library dossiers with a cross-library comparison matrix; runs a freshness check against npm before returning guidance |
+| ↳ | `/animation-library:scaffold-library` | Generate a new library dossier from the bundled template — fetches current docs, wires the entry into the comparison matrix and index |
+| ↳ | `/animation-library:refresh-library` | Re-verify a dossier against npm's latest; dispatched automatically by `pick-library` on version drift |
 
 ## License
 
