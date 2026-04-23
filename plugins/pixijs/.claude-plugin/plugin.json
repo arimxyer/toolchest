@@ -5,9 +5,6 @@
   "author": {
     "name": "arimxyer"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/arimxyer/toolchest"
-  },
+  "repository": "https://github.com/arimxyer/toolchest",
   "license": "Apache-2.0"
 }
