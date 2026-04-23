@@ -18,14 +18,24 @@ When you're choosing, comparing, or scaffolding an animation / rendering layer f
 
 **Rendering (14):** Babylon.js, Fabric.js, Konva, Lottie, p5.js, Phaser, PixiJS, @pixi/react, react-konva, react-three-fiber, react-three-rapier, Remotion, Rive, three.js.
 
-## Usage
+## Skills
 
-The skill triggers automatically when you're picking an animation or rendering library, or invoke it directly:
+This plugin ships three skills. All three trigger automatically from natural-language prompts; you can also invoke them directly.
+
+| Skill | Invocation | What it does |
+|---|---|---|
+| `pick-library` | `/animation-library:pick-library [question]` | Selector. Picks the right dossier(s) for the user's question, consults COMPARISON.md for multi-library comparisons, and runs a freshness check before returning guidance (dispatches `refresh-library` if a dossier's recorded version differs from npm's latest). |
+| `scaffold-library` | `/animation-library:scaffold-library <slug> [npm-name] [motion\|rendering]` | Generates a new library dossier from the bundled `template/`, fetches current docs, and wires the entry into `pick-library`'s Library index and COMPARISON.md matrix. |
+| `refresh-library` | `/animation-library:refresh-library <slug>` | Re-verifies a dossier against the library's current npm version and release notes. Also invoked automatically by `pick-library` when it detects staleness. |
+
+Typical direct-invocation examples:
 
 ```
-/animation-library:animation-library what should I use for scroll-driven animations with React?
+/animation-library:pick-library what should I use for scroll-driven animations with React?
+/animation-library:scaffold-library motion-canvas motion-canvas motion
+/animation-library:refresh-library gsap
 ```
 
 ## Freshness
 
-Dossiers are a snapshot researched in April 2026. Each library's `references/sources.md` links to primary sources — re-verify there if a figure needs to be current.
+Dossiers were researched in April 2026. The `pick-library` skill checks each dossier's `Version researched` against npm before every consumption and auto-invokes `refresh-library` on mismatch, so the corpus stays current without manual maintenance cycles. Each `references/sources.md` links to primary sources for any claim you want to re-verify by hand.
