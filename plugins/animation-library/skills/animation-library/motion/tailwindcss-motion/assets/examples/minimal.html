@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>tailwindcss-motion — minimal example</title>
+  <!-- CDN: Tailwind Play CDN (development only) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Register tailwindcss-motion via CDN is not available;
+    // this example shows the class usage pattern for copy-paste into a project
+    // with tailwindcss-motion installed as a Tailwind plugin.
+    //
+    // Install: npm i -D tailwindcss-motion
+    // Config:  plugins: [require('tailwindcss-motion')]
+  </script>
+  <style>
+    /* Inline keyframes so the demo renders without the plugin (approximation only) */
+    @keyframes fade-slide-in {
+      from { opacity: 0; transform: translateY(1.5rem); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-scale {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.05); }
+    }
+    .demo-enter { animation: fade-slide-in 500ms cubic-bezier(0.2,0,0,1) both; }
+    .demo-loop  { animation: pulse-scale 2s ease-in-out infinite; }
+  </style>
+</head>
+<body class="min-h-screen bg-gray-950 flex flex-col items-center justify-center gap-8 p-8">
+
+  <!-- Entrance animation: opacity + translate-y (via plugin classes) -->
+  <!-- With plugin: class="motion-opacity-in-0 motion-translate-y-in-100 motion-duration-500" -->
+  <div class="demo-enter bg-white rounded-2xl px-8 py-6 text-gray-900 text-xl font-semibold shadow-lg">
+    Fades + slides in from below
+    <span class="block text-sm font-normal text-gray-500 mt-1">
+      Plugin classes: motion-opacity-in-0 motion-translate-y-in-100 motion-duration-500
+    </span>
+  </div>
+
+  <!-- Preset (with plugin): motion-preset-bounce-sm -->
+  <!-- Loop animation: motion-preset-pulse -->
+  <div class="demo-loop bg-indigo-500 text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl shadow-lg">
+    ✦
+  </div>
+  <p class="text-gray-500 text-sm">
+    Loop: <code>motion-preset-pulse</code> &nbsp;|&nbsp;
+    Bounce preset: <code>motion-preset-bounce-sm</code>
+  </p>
+
+</body>
+</html>

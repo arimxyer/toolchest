@@ -16,6 +16,16 @@
         "name": "arimxyer"
       },
       "license": "Apache-2.0"
+    },
+    {
+      "name": "animation-library",
+      "source": "./plugins/animation-library",
+      "description": "Decision-support dossier for picking a JS/TS motion or rendering library — 30 libraries (GSAP, Motion, three.js, PixiJS, Rive, Lottie, Remotion, and more) with a cross-library comparison matrix and per-library dossiers.",
+      "version": "1.0.0",
+      "author": {
+        "name": "arimxyer"
+      },
+      "license": "Apache-2.0"
     }
   ]
 }

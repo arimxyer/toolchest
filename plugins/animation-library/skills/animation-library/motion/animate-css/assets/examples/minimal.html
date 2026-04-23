@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>animate.css — minimal example</title>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css"
+  />
+  <style>
+    body { font-family: system-ui, sans-serif; display: grid; place-items: center; min-height: 100vh; gap: 1rem; }
+    button { padding: 0.5rem 1.25rem; cursor: pointer; }
+    .box { width: 160px; height: 160px; background: #6366f1; border-radius: 12px; display: grid; place-items: center; color: #fff; font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <!-- 1. On-load animation: add both classes to the element -->
+  <div class="box animate__animated animate__fadeInDown">Fade In</div>
+
+  <!-- 2. Triggered animation: class toggle via JS -->
+  <div class="box" id="target">Click below</div>
+  <button id="btn">Bounce it</button>
+
+  <script>
+    const target = document.getElementById('target');
+    const btn = document.getElementById('btn');
+
+    btn.addEventListener('click', () => {
+      // Remove first in case animation is already playing
+      target.classList.remove('animate__animated', 'animate__bounce');
+
+      // Force reflow so removing + re-adding the class restarts the animation
+      void target.offsetWidth;
+
+      target.classList.add('animate__animated', 'animate__bounce');
+    });
+
+    // Clean up classes once done so the animation can replay
+    target.addEventListener('animationend', () => {
+      target.classList.remove('animate__animated', 'animate__bounce');
+    });
+  </script>
+
+</body>
+</html>

@@ -25,6 +25,7 @@ npx skills add arimxyer/toolchest
 | Plugin | Skill | Description |
 |--------|-------|-------------|
 | `pixijs` | `/pixijs:pixijs` | PixiJS v8 development guide with bundled API references, code patterns, and best practices |
+| `animation-library` | `/animation-library:animation-library` | Decision-support dossier for picking a JS/TS motion or rendering library — 30 libraries with comparison matrix |
 
 ## License
 

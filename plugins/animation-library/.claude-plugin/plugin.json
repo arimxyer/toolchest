@@ -1,0 +1,13 @@
+{
+  "name": "animation-library",
+  "description": "Decision-support dossier for picking a JS/TS motion or rendering library — 30 libraries researched with per-library overview, API, differentiators, drawbacks, and a cross-library comparison matrix.",
+  "version": "1.0.0",
+  "author": {
+    "name": "arimxyer"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arimxyer/toolchest"
+  },
+  "license": "Apache-2.0"
+}

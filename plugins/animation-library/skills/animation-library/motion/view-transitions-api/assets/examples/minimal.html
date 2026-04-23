@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>View Transitions API — minimal example</title>
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 2rem; }
+    .box { width: 120px; height: 120px; border-radius: 8px; background: steelblue; view-transition-name: box; }
+    .box.big { width: 240px; height: 240px; background: tomato; border-radius: 50%; }
+    button { margin-top: 1.5rem; padding: .5rem 1.25rem; font-size: 1rem; cursor: pointer; }
+
+    /* Custom animation: slide + fade instead of plain cross-fade */
+    @keyframes fade-in  { from { opacity: 0; transform: translateY(12px); } }
+    @keyframes fade-out { to   { opacity: 0; transform: translateY(-12px); } }
+    ::view-transition-old(box) { animation: 250ms ease-in  fade-out; }
+    ::view-transition-new(box) { animation: 250ms ease-out fade-in;  }
+
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-old(*), ::view-transition-new(*) { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="box" id="box"></div>
+  <button id="btn">Toggle shape</button>
+
+  <script>
+    const box = document.getElementById('box');
+    const btn = document.getElementById('btn');
+    let toggled = false;
+
+    btn.addEventListener('click', () => {
+      if (!document.startViewTransition) {
+        box.classList.toggle('big'); // instant fallback
+        return;
+      }
+      document.startViewTransition(() => {
+        toggled = !toggled;
+        box.classList.toggle('big', toggled);
+      });
+    });
+  </script>
+</body>
+</html>
