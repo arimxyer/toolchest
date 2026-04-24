@@ -26,6 +26,16 @@
         "name": "arimxyer"
       },
       "license": "Apache-2.0"
+    },
+    {
+      "name": "sudo-askpass",
+      "source": "./plugins/sudo-askpass",
+      "description": "Help agents run sudo commands from non-interactive Linux sessions by detecting, configuring, and safely using askpass helpers.",
+      "version": "1.0.0",
+      "author": {
+        "name": "arimxyer"
+      },
+      "license": "Apache-2.0"
     }
   ]
 }
