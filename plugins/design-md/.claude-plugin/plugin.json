@@ -1,0 +1,10 @@
+{
+  "name": "design-md",
+  "description": "DESIGN.md format specification from Google Labs — a self-contained plain-text representation of a design system, with tools for authoring, interpreting, and converting design tokens to Tailwind v4 @theme CSS or v3 tailwind.config.js.",
+  "version": "1.0.0",
+  "author": {
+    "name": "arimxyer"
+  },
+  "repository": "https://github.com/arimxyer/toolchest",
+  "license": "Apache-2.0"
+}
