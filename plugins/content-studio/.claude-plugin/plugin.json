@@ -1,0 +1,10 @@
+{
+  "name": "content-studio",
+  "description": "Write, outline, critique, and headline articles for a website that follows a brand voice guide — five user-invoked skills that read a project-local voice file and emit drafts in markdown, MDX, frontmatter+body, or HTML.",
+  "version": "1.0.0",
+  "author": {
+    "name": "arimxyer"
+  },
+  "repository": "https://github.com/arimxyer/toolchest",
+  "license": "Apache-2.0"
+}

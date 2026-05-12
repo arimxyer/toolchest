@@ -30,6 +30,12 @@ npx skills add arimxyer/toolchest
 | ↳ | `/animation-library:refresh-library` | Re-verify a dossier against npm's latest; dispatched automatically by `pick-library` on version drift |
 | `sudo-askpass` | `/sudo-askpass:sudo-askpass` | Help agents run sudo commands from non-interactive Linux sessions by detecting, configuring, and safely using askpass helpers |
 | `design-md` | `/design-md:design-md` | Author and convert DESIGN.md design systems — 8 section references, Tailwind v4/v3 conversion guide, worked examples, and a Python `theme.css` generator |
+| `content-studio` | `/content-studio:init` | Scaffold a brand voice guide and plugin settings — writes `brand-voice.md` and `.claude/content-studio.local.md` |
+| ↳ | `/content-studio:brainstorm` | Divergent ideation — produce 5–8 distinct article angle candidates (with hook sentences) from a theme, raw material, or interview notes |
+| ↳ | `/content-studio:outline` | Generate a structured outline (headings, key points, CTA) from a brief, tuned to the brand voice |
+| ↳ | `/content-studio:draft` | Draft a full article from a brief or outline; writes to the configured output directory in markdown, MDX, frontmatter+body, or HTML |
+| ↳ | `/content-studio:critique` | Critique an existing draft against the voice guide; reports issues with line refs, then offers to apply edits (with git-safety check) |
+| ↳ | `/content-studio:headlines` | Generate headline variations plus SEO metadata (meta description, slug, og:title) in the brand voice |
 
 ## License
 
