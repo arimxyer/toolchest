@@ -77,12 +77,9 @@ Before calling `Write`:
 
 ### Step 6 — write and report
 
-- `mkdir -p ${user_config.output_dir}/<slug>` — each piece gets its own directory.
-- Draft path: `${user_config.output_dir}/<slug>/draft<ext>`. If the piece directory already contains a `draft<ext>`, increment the slug (not the filename): `<slug>-2/draft<ext>`. Each piece stays in its own folder.
-- If the brief contained an inline outline (from `/content-studio:outline`), also save it as `${user_config.output_dir}/<slug>/outline.md` alongside the draft for traceability.
-- Use `Write`.
+The `draft` skill is preloaded into your context (per the `skills: [draft]` frontmatter) and contains the complete file-write mechanics: the per-piece path scheme (`${user_config.output_dir}/<slug>/draft<ext>`), the slug-collision behavior, and the optional outline-save logic. **Do not re-implement file writing.** Follow the preloaded skill's instructions for the path verbatim; don't substitute your own conventions.
 
-After saving, report to the user / parent agent:
+After the skill's write step lands, report to the user / parent agent:
 
 ```
 ✓ Piece created: <output_dir>/<slug>/

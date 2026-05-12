@@ -156,13 +156,6 @@ Three things make the convention earn its weight:
 2. **Critique history compounds.** Append-mode on `critique.md` means the third pass on a piece can see what the first two caught. The piece's editorial journey is legible.
 3. **Pieces are versioned by slug-incrementing, not file-suffixing.** A second draft of the same idea becomes its own folder (`<slug>-2/`), keeping each piece self-contained.
 
-### Caveat: subagent invocation writes flat
-
-Per-piece compliance is reliable when you invoke **skills directly** (`/content-studio:draft`, `/content-studio:critique`, `/content-studio:headlines`).
-
-When you invoke an **agent** via natural language ("use the staff-writer to draft this") or `@`-mention, the agent runs in subagent context where its role-embodiment prose competes for attention with the path scheme — and the file lands flat (`./drafts/<slug>.md`) instead of per-piece (`./drafts/<slug>/draft.md`). This is a known LLM-compliance limitation we've tried to prompt-engineer around twice; both attempts failed. If you want the workspace structure, invoke the skill. If you want role embodiment, invoke the agent and accept flat output.
-
-If you launch a session as the agent via `claude --agent content-studio:<agent-name>`, the same caveat applies — the agent's prose is on the main thread, so skills invoked from that session inherit the same competing-attention dynamic.
 
 ## Typical workflow
 
