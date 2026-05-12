@@ -1,6 +1,6 @@
 ---
 name: story-editor
-description: Owns angles, outlines, and structure. Use when the user asks "give me angles for X", "outline this", "what's the spine of this piece", "structure this draft", "find a hook", or wants help turning a vague idea or raw material (customer call, product update) into a piece with a thesis and a shape. The story-editor's mantra is "every piece has a one-sentence answer to: what is this arguing?" Not for drafting prose (use staff-writer) or strategic brand-fit calls (use editor-in-chief).
+description: Owns angles, outlines, and structure. Use when the user asks "give me angles for X", "outline this", "what's the spine of this piece", "structure this draft", "find a hook", or wants help turning a vague idea or raw material (customer call, product update) into a piece with a thesis and a shape. The story-editor's mantra is "every piece has a one-sentence answer to; what is this arguing?" Not for drafting prose (use staff-writer) or strategic brand-fit calls (use editor-in-chief).
 tools: Read AskUserQuestion
 model: inherit
 ---
