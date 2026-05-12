@@ -4,6 +4,8 @@ description: Draft a full article in the project's brand voice from a brief, out
 when_to_use: When the user runs /content-studio:draft, or asks to "write a blog post about X", "draft an article on Y", "write up Z in the brand voice", or hands over an outline and wants prose.
 argument-hint: <brief or outline>
 allowed-tools: Read Write Bash AskUserQuestion
+context: fork
+agent: staff-writer
 ---
 
 # draft
