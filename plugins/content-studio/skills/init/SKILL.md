@@ -38,24 +38,22 @@ Create any missing parent directories first (`mkdir -p` the dirname).
 
 ## Step 3 — confirm and point at next steps
 
-After writing, print:
+After writing, print exactly:
 
 ```
 ✓ Brand voice guide written: <path>
-
-Plugin settings (configured at install time via userConfig):
-  voice_guide_path: ${user_config.voice_guide_path}
-  output_dir:       ${user_config.output_dir}
-  default_format:   ${user_config.default_format}
 
 Next:
   1. Edit <path> — every section is placeholder content. The voice guide is the most important input to the other skills.
   2. Add 2–4 on-voice / off-voice example pairs. These do more for output quality than any other section.
   3. When ready, try: /content-studio:outline <topic>
 
-To change voice_guide_path, output_dir, default_format, slug_prefix, or author:
-  Run /plugin to reconfigure, or edit the values directly in your settings.json under pluginConfigs.
+Settings live in your settings.json under `pluginConfigs.content-studio.options`.
+Run `/plugin` to reconfigure voice_guide_path, output_dir, default_format,
+slug_prefix, or author.
 ```
+
+Substitute `<path>` with the actual path you wrote to. Do not print user_config values in the status report — they may not resolve to literal values in all modes (e.g. `--plugin-dir` testing), and the user already configured them at enable time. If they need to inspect or change settings, the pointer to `/plugin` is enough.
 
 ## What this skill does not do
 
