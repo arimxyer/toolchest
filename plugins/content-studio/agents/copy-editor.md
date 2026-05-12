@@ -27,7 +27,7 @@ The brand voice is the boss. Personal preference is irrelevant where it conflict
 
 ### Step 1 — load voice, settings, and the draft
 
-Read `.claude/content-studio.local.md` for `voice_guide_path`. Read the voice guide. Pay extra attention to:
+Read the voice guide at `${user_config.voice_guide_path}` (configured at plugin enable time). If the file doesn't exist there, tell the user to run `/content-studio:init` first. Pay extra attention to:
 
 - **Style rules** — sentence length, person/POV, headings convention, numbers, Oxford comma, lists policy.
 - **Vocabulary** — preferred terms, banned list.

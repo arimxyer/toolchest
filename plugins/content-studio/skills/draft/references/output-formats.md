@@ -3,7 +3,7 @@
 The `/content-studio:draft` skill emits one of four formats. The format comes from (in order):
 
 1. The user's explicit instruction in the prompt (e.g. "draft this as MDX").
-2. The `default_format` field in `.claude/content-studio.local.md`.
+2. `${user_config.default_format}` — set at plugin enable time.
 3. `markdown` as the final fallback.
 
 The chosen format determines the file extension, what frontmatter (if any) gets emitted, and how rich-content elements are rendered.
@@ -50,14 +50,14 @@ title: "<Article title — sentence case unless voice guide says otherwise>"
 description: "<Meta description, 140–160 chars, in voice>"
 date: <YYYY-MM-DD — today's date>
 slug: <kebab-case-slug-of-title>
-author: <author from settings if set; otherwise omit the field>
+author: <${user_config.author} if non-empty; otherwise omit the field entirely>
 tags: [<2–5 topic tags, lowercase, hyphen-separated>]
 draft: true
 ---
 ```
 
 - `draft: true` is intentional — the writer should flip it to false (or remove it) once reviewed.
-- If settings define `slug_prefix`, prepend it (e.g. `slug_prefix: posts/` + slug `lexcheck-12-minute-review` → `posts/lexcheck-12-minute-review`).
+- If `${user_config.slug_prefix}` is non-empty, prepend it (e.g. `slug_prefix: posts/` + slug `lexcheck-12-minute-review` → `posts/lexcheck-12-minute-review`).
 - Add `tags` only if the brief or outline gives you concrete signals — don't fabricate them from thin air.
 
 Body follows the same shape as `markdown` format.
@@ -100,11 +100,11 @@ Do not emit `<html>`, `<head>`, or `<body>` wrappers — the article fragment is
 ## File naming
 
 - Slugify the title: lowercase, hyphenate, strip punctuation, max ~60 chars.
-- Final filename: `<output_dir>/<slug><ext>` where `<ext>` is the format's extension.
+- Final filename: `${user_config.output_dir}/<slug><ext>` where `<ext>` is the format's extension.
 - If a file at that path already exists, append `-2`, `-3`, etc. Do not overwrite.
 
 ## Common across all formats
 
-- The article is always written to the `output_dir` from settings (default `./drafts`). Create the directory if it doesn't exist.
+- The article is always written to `${user_config.output_dir}` (default `./drafts`). Create the directory if it doesn't exist.
 - Emit the path of the created file to the user when done.
-- Never write to a path outside `output_dir` without explicit user confirmation — even if the user pastes an absolute path in their brief.
+- Never write to a path outside `${user_config.output_dir}` without explicit user confirmation — even if the user pastes an absolute path in their brief.

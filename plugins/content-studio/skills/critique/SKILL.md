@@ -12,11 +12,11 @@ Review a draft against the brand voice guide. Output a report first, then offer 
 
 `$ARGUMENTS` is the path to the draft file. If empty, ask for it. Do not critique a draft pasted into chat without a file path — `/critique` is meant to operate on files so edits can be applied.
 
-## Step 1 — load voice + settings + draft
+## Step 1 — load voice + draft
 
-Read `.claude/content-studio.local.md` for `voice_guide_path`. If missing, tell the user to run `/content-studio:init` and stop.
+Read the brand voice file at `${user_config.voice_guide_path}` (configured at plugin enable time). If the file doesn't exist there, tell the user to run `/content-studio:init` to write the starter template, then come back.
 
-Read the brand voice file. The sections that drive critique:
+The sections that drive critique:
 
 - **Voice** adjectives + nuance.
 - **Tone shifts by context** — figure out which row applies to this draft (announcement, deep-dive, support, customer story). If it's ambiguous, ask the user.

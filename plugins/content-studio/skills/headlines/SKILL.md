@@ -16,11 +16,11 @@ Produce 5–8 headline candidates plus the SEO/social metadata that goes with th
 - A file path to an existing draft (skill reads the draft to ground the headlines in actual content).
 - Nothing — ask the user what the article is about.
 
-## Step 1 — load voice + settings
+## Step 1 — load voice
 
-Read `.claude/content-studio.local.md` for `voice_guide_path`. If missing, tell the user to run `/content-studio:init` and stop.
+Read the brand voice file at `${user_config.voice_guide_path}` (configured at plugin enable time). If the file doesn't exist there, tell the user to run `/content-studio:init` to write the starter template, then come back.
 
-Read the brand voice file. The high-value sections for headlines:
+The high-value sections for headlines:
 
 - **Voice** adjectives — headlines are the most concentrated expression of voice.
 - **Style rules** — heading case convention (sentence case vs title case), number formatting, banned punctuation like em-dashes / parentheses if specified.
@@ -63,7 +63,7 @@ After listing candidates, pick the strongest one yourself (or use the first cand
 
 - **title:** <chosen headline — full version>
 - **meta description:** <140–160 chars; on-voice; specific; describes what the article is, not a tease>
-- **slug:** <kebab-case-of-title>  <!-- with slug_prefix from settings if set -->
+- **slug:** <kebab-case-of-title>  <!-- with ${user_config.slug_prefix} prepended if non-empty -->
 - **og:title:** <may differ from title if title is >60 chars — shorter, more punchy>
 - **og:description:** <can match meta description, or be slightly more conversational if voice allows>
 - **twitter:title:** <if different from og:title — usually it's not>
@@ -73,8 +73,8 @@ After listing candidates, pick the strongest one yourself (or use the first cand
 Rules for metadata:
 
 - **Meta description** is a sentence or two, in voice, that completes the headline's promise. It is **not** a teaser ("Read on to find out…") — it should stand alone and tell the reader what the article delivers.
-- **Slug** uses settings' `slug_prefix` if set; otherwise just the slugified title.
-- Honor `default_format` from settings: if `frontmatter` or `mdx`, the metadata bundle maps directly into the frontmatter fields the `/draft` skill would emit. Call that out at the end so the user can paste it straight in.
+- **Slug** uses `${user_config.slug_prefix}` if non-empty; otherwise just the slugified title.
+- Honor `${user_config.default_format}`: if it's `frontmatter` or `mdx`, the metadata bundle maps directly into the frontmatter fields the `/draft` skill would emit. Call that out at the end so the user can paste it straight in.
 
 ## Step 4 — close
 

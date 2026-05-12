@@ -1,10 +1,55 @@
 {
   "name": "content-studio",
-  "description": "Write, outline, critique, and headline articles for a website that follows a brand voice guide — five user-invoked skills that read a project-local voice file and emit drafts in markdown, MDX, frontmatter+body, or HTML.",
-  "version": "1.0.0",
+  "description": "A brand-voice-driven writer's room — six user-invoked skills (init, brainstorm, outline, draft, critique, headlines) plus six specialist agents (managing-editor, editor-in-chief, story-editor, staff-writer, copy-editor, headline-editor) that read a project-local brand voice file and emit content in markdown, MDX, frontmatter+body, or HTML.",
+  "version": "2.0.0",
   "author": {
-    "name": "arimxyer"
+    "name": "arimxyer",
+    "url": "https://github.com/arimxyer"
   },
+  "homepage": "https://github.com/arimxyer/toolchest/tree/main/plugins/content-studio",
   "repository": "https://github.com/arimxyer/toolchest",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "keywords": [
+    "content",
+    "writing",
+    "blog",
+    "articles",
+    "voice-guide",
+    "editorial",
+    "drafts",
+    "seo",
+    "newsroom",
+    "agents"
+  ],
+  "userConfig": {
+    "voice_guide_path": {
+      "type": "string",
+      "title": "Brand voice guide path",
+      "description": "Path (relative to project root) where the brand voice markdown file lives. /content-studio:init writes a starter template here if no file exists at this path yet.",
+      "default": "./brand-voice.md",
+      "required": true
+    },
+    "output_dir": {
+      "type": "string",
+      "title": "Output directory for drafts",
+      "description": "Directory where /content-studio:draft writes generated articles. Created on first draft if missing.",
+      "default": "./drafts"
+    },
+    "default_format": {
+      "type": "string",
+      "title": "Default output format",
+      "description": "One of: markdown, mdx, frontmatter, html. Used when the user doesn't specify a format inline (e.g. 'draft this as MDX' overrides per-invocation).",
+      "default": "markdown"
+    },
+    "slug_prefix": {
+      "type": "string",
+      "title": "Slug prefix (optional)",
+      "description": "Optional. Prepended to generated slugs in frontmatter (e.g. 'posts/' or 'blog/'). Leave blank if not needed."
+    },
+    "author": {
+      "type": "string",
+      "title": "Author name for frontmatter (optional)",
+      "description": "Optional. Written into the 'author' frontmatter field when emitting 'frontmatter' or 'mdx' format. Leave blank if not needed."
+    }
+  }
 }

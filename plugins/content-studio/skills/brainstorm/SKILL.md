@@ -17,11 +17,11 @@ Produce 5–8 article angle candidates from vague input. This skill is **diverge
 - A path to a file with raw material (a transcript, a notes file)
 - Nothing at all — ask the user what raw material or theme they have
 
-## Step 1 — load voice + settings
+## Step 1 — load voice
 
-Read `.claude/content-studio.local.md` for `voice_guide_path`. If missing, tell the user to run `/content-studio:init` and stop.
+Read the brand voice file at `${user_config.voice_guide_path}` (configured at plugin enable time). If the file does not exist there, tell the user to run `/content-studio:init` to write the starter template, then come back. Do not proceed without a voice guide — every angle this skill produces has to be grounded in the brand.
 
-Read the brand voice file. The high-value sections for brainstorming:
+The high-value sections for brainstorming:
 
 - **About the brand** — angles have to be relevant to what the brand actually does.
 - **Audience** — every candidate should target a primary or secondary audience from this section. Reject angles that target nobody.

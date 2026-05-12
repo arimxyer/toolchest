@@ -12,11 +12,11 @@ Produce a content outline that the user can either edit and hand to `/content-st
 
 `$ARGUMENTS` is the brief — a topic, a sentence, a paragraph, or a rough idea. If empty, ask for it via `AskUserQuestion`. Do not invent a topic.
 
-## Step 1 — load voice and settings
+## Step 1 — load voice
 
-Read `.claude/content-studio.local.md` for `voice_guide_path`. If the settings file is missing, tell the user to run `/content-studio:init` first and stop.
+Read the brand voice file at `${user_config.voice_guide_path}` (configured at plugin enable time). If the file does not exist there, tell the user to run `/content-studio:init` to write the starter template, then come back.
 
-Read the brand voice file at `voice_guide_path`. Pay particular attention to:
+Pay particular attention to:
 
 - The **Audience** section — drives reading level, jargon tolerance, what to take for granted.
 - The **Article structure defaults** section — use it as the outline's skeleton unless the brief overrides.

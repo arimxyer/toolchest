@@ -18,18 +18,19 @@ Generate a full article in the brand voice and save it to the project's output d
 
 If `$ARGUMENTS` is empty, ask for the brief via `AskUserQuestion`. Do not draft a generic post.
 
-## Step 1 — load voice, settings, and resolve format
+## Step 1 — load voice and resolve format
 
-Read `.claude/content-studio.local.md`. Pull:
+Settings come from `userConfig` (configured at plugin enable time). The values available:
 
-- `voice_guide_path` — required.
-- `output_dir` — default `./drafts` if missing.
-- `default_format` — default `markdown` if missing.
-- `slug_prefix`, `author` — optional, used for frontmatter / MDX.
+- `${user_config.voice_guide_path}` — required, path to the brand voice markdown.
+- `${user_config.output_dir}` — directory where this skill writes the draft. Default `./drafts`.
+- `${user_config.default_format}` — format to emit when the user doesn't specify. Default `markdown`.
+- `${user_config.slug_prefix}` — optional, prepended to generated slugs.
+- `${user_config.author}` — optional, written into frontmatter for `frontmatter`/`mdx` formats.
 
-If the settings file is missing, tell the user to run `/content-studio:init` and stop.
+Read the brand voice file at `${user_config.voice_guide_path}`. If the file doesn't exist there, tell the user to run `/content-studio:init` to write the starter template, then come back.
 
-Read the brand voice file. The high-value sections for drafting are:
+The high-value sections for drafting are:
 
 - **Voice** and its adjective nuance — every paragraph has to defensibly hit these.
 - **Tone shifts by context** — pick the row that matches this piece (announcement, deep-dive, support, customer story).
@@ -41,8 +42,8 @@ Read the brand voice file. The high-value sections for drafting are:
 Resolve the output format in this order:
 
 1. Explicit instruction in `$ARGUMENTS` ("draft this as MDX", "give me HTML").
-2. `default_format` from settings.
-3. `markdown`.
+2. `${user_config.default_format}`.
+3. `markdown` (final fallback if the userConfig value is somehow empty).
 
 Then read [`references/output-formats.md`](references/output-formats.md) (sibling of this SKILL.md) for the per-format spec — frontmatter fields, file extension, body conventions, edge cases.
 
@@ -78,8 +79,8 @@ If the format requires frontmatter, generate it per `references/output-formats.m
 - `title` — sentence case unless voice guide overrides.
 - `description` — 140–160 character meta description in voice.
 - `date` — today's date.
-- `slug` — slugify title (lowercase, hyphenate, strip punctuation, max ~60 chars). Prepend `slug_prefix` if set.
-- `author` — from settings if present, else omit.
+- `slug` — slugify title (lowercase, hyphenate, strip punctuation, max ~60 chars). Prepend `${user_config.slug_prefix}` if non-empty.
+- `author` — `${user_config.author}` if non-empty, else omit the field entirely.
 - `tags` — only if the brief gives concrete signals; don't fabricate.
 - `draft: true` — always.
 
@@ -93,8 +94,8 @@ Before calling `Write`, scan the draft once more:
 
 ## Step 6 — write the file
 
-- Create `output_dir` if it doesn't exist (`mkdir -p`).
-- Final path: `<output_dir>/<slug><ext>` where `<ext>` matches the format.
+- Create `${user_config.output_dir}` if it doesn't exist (`mkdir -p`).
+- Final path: `${user_config.output_dir}/<slug><ext>` where `<ext>` matches the format.
 - If a file already exists at that path, append `-2`, `-3`, etc. Never overwrite.
 - Use the `Write` tool.
 
@@ -117,4 +118,4 @@ If you made zero tradeoffs and left no TODOs, drop the "Voice notes" section ent
 - It does not look up SEO keyword volume, do competitor research, or fetch reference URLs. Bring those in the brief.
 - It does not publish, schedule, or commit the draft. It writes one file to the output directory and stops.
 - It does not generate images or alt-text — leave image slots as `<!-- TODO: image -->`.
-- It does not draft outside `output_dir` unless the user gives an absolute path AND confirms.
+- It does not draft outside `${user_config.output_dir}` unless the user gives an absolute path AND confirms.

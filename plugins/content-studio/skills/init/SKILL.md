@@ -1,87 +1,65 @@
 ---
 name: init
-description: Scaffold the brand voice guide and plugin settings for content-studio — writes a starter brand-voice.md and .claude/content-studio.local.md.
+description: Scaffold the brand voice guide for content-studio — writes a starter brand-voice.md at the configured path so the user has something to edit.
 when_to_use: When the user runs /content-studio:init, or asks to "set up content-studio", "add a brand voice file", "initialize the blog writing plugin", or wants the starter brand voice template written into their project.
-argument-hint: "[voice-guide-path]"
-allowed-tools: Read Write Bash AskUserQuestion
+argument-hint: "[voice-guide-path-override]"
+allowed-tools: Read Write Bash
 ---
 
 # init
 
-Set up the two files content-studio needs in a project:
+Write the brand voice starter template into the project so the user has something concrete to edit. All other content-studio configuration (output directory, default format, slug prefix, author) is set via the plugin's `userConfig` at enable time and isn't this skill's concern.
 
-1. A brand voice guide (markdown) — the source of truth for tone, vocabulary, examples, and audience.
-2. A plugin settings file at `.claude/content-studio.local.md` — points the other skills at the voice guide and configures output paths.
+## Where does the voice guide go?
 
-If invoked as `/content-studio:init <path>`, use `$ARGUMENTS` as the desired voice-guide path. Otherwise ask.
+By default, at `${user_config.voice_guide_path}` (configured at plugin enable time, default `./brand-voice.md`).
 
-## Step 1 — decide where the voice guide lives
+If `$ARGUMENTS` is non-empty, use it as a one-off override for the path — write the template there for this run. Do not change the configured `voice_guide_path` (the user can do that via plugin settings if they want the override to persist).
 
-Default: `./brand-voice.md` at the project root.
+## Step 1 — check whether the file already exists
 
-Common alternatives the user may prefer:
-
-- `./docs/brand-voice.md`
-- `./content/brand-voice.md`
-- `./.claude/brand-voice.md`
-
-Ask once via `AskUserQuestion` only if `$ARGUMENTS` is empty and the default would collide with an existing file. Use the existing file's path if one is already present at any of the common locations — don't overwrite.
-
-## Step 2 — write the brand voice file
-
-If the chosen path does **not** exist, copy the starter template at [`assets/brand-voice-template.md`](assets/brand-voice-template.md) (sibling of this SKILL.md) to the chosen path. Write it verbatim — it's intentionally placeholder-heavy so the user knows what to fill in.
-
-If the chosen path **already** exists, do not overwrite. Tell the user the file is already there and move on to step 3.
-
-## Step 3 — write the settings file
-
-Path: `.claude/content-studio.local.md` (project-local, gitignored per Claude Code convention for `.local.md` files).
-
-Create `.claude/` if it doesn't exist. Write this content, substituting `<voice_guide_path>` with the path chosen in step 1:
-
-```markdown
----
-voice_guide_path: <voice_guide_path>
-output_dir: ./drafts
-default_format: markdown
----
-
-# content-studio settings
-
-Edit the frontmatter above to configure the content-studio plugin.
-
-## Fields
-
-- **voice_guide_path** — path to the brand voice guide markdown file. Read by every content-studio skill.
-- **output_dir** — directory where `/content-studio:draft` writes generated articles. Created on first draft.
-- **default_format** — one of: `markdown`, `mdx`, `frontmatter`, `html`. The format `/content-studio:draft` emits when the user doesn't specify. `frontmatter` means YAML frontmatter + markdown body (for static-site generators).
-
-## Optional fields
-
-- **slug_prefix** — string prepended to generated slugs (e.g. `posts/`, `blog/`).
-- **author** — author string written into frontmatter when format is `frontmatter` or `mdx`.
-```
-
-If the settings file already exists, leave it alone — show its current contents to the user instead of overwriting.
-
-## Step 4 — confirm and point to next steps
-
-After writing both files, print a short status:
+If a file already exists at the target path, do **not** overwrite it. Tell the user:
 
 ```
-✓ Brand voice guide:   <voice_guide_path>
-✓ Settings file:       .claude/content-studio.local.md
+✓ Voice guide already exists: <path>
+
+This skill won't overwrite existing files. If you want a fresh template:
+  1. Move or delete <path>
+  2. Re-run /content-studio:init
+```
+
+Stop here. The voice guide is the user's authored content — preserving it matters more than re-running cleanly.
+
+## Step 2 — write the starter template
+
+If the target path is clear, copy the starter template at [`assets/brand-voice-template.md`](assets/brand-voice-template.md) (sibling of this SKILL.md) to the target path verbatim. The template is intentionally placeholder-heavy — every section teaches the user what to write.
+
+Create any missing parent directories first (`mkdir -p` the dirname).
+
+## Step 3 — confirm and point at next steps
+
+After writing, print:
+
+```
+✓ Brand voice guide written: <path>
+
+Plugin settings (configured at install time via userConfig):
+  voice_guide_path: ${user_config.voice_guide_path}
+  output_dir:       ${user_config.output_dir}
+  default_format:   ${user_config.default_format}
 
 Next:
-  1. Edit <voice_guide_path> — every section is placeholder content. The voice guide is the most important input to the other skills.
+  1. Edit <path> — every section is placeholder content. The voice guide is the most important input to the other skills.
   2. Add 2–4 on-voice / off-voice example pairs. These do more for output quality than any other section.
   3. When ready, try: /content-studio:outline <topic>
-```
 
-Do not silently fill the voice guide with brand-specific content — the user has to write it. The template's placeholders are doing the work of teaching the user *what* to write.
+To change voice_guide_path, output_dir, default_format, slug_prefix, or author:
+  Run /plugin to reconfigure, or edit the values directly in your settings.json under pluginConfigs.
+```
 
 ## What this skill does not do
 
-- It does not infer the brand voice from the project's existing content. That's a separate, much larger task — the user should drive it themselves.
-- It does not commit the new files. Leave that to the user.
-- It does not edit `.gitignore`. The `.local.md` convention is already gitignored in most Claude Code projects; if the user's project isn't set up that way, point it out but don't modify their gitignore.
+- It does not write a settings file. All settings now come from the plugin's `userConfig` block (set at enable time, stored under `pluginConfigs` in your settings.json).
+- It does not infer the brand voice from existing site content. That's a separate, much larger task — the user authors the voice guide themselves.
+- It does not commit the new file. Leave that to the user.
+- It does not edit `.gitignore`. The voice guide is content meant to be committed and shared with the team; leave it tracked.

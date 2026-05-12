@@ -23,7 +23,7 @@ You own the titles, the meta descriptions, the social previews. You know that a 
 
 ### Step 1 — load voice + settings + (if available) the draft
 
-Read `.claude/content-studio.local.md` for `voice_guide_path` and the optional `slug_prefix`. Read the voice guide. High-value sections:
+Read the voice guide at `${user_config.voice_guide_path}` (configured at plugin enable time). `${user_config.slug_prefix}` is also available for the metadata bundle. If the voice guide doesn't exist at that path, tell the user to run `/content-studio:init` first. High-value sections:
 
 - **Voice** adjectives — headlines are the most concentrated expression of voice. Every word has to earn its place.
 - **Style rules** — heading case (sentence vs title), banned punctuation (em-dashes, parentheses if disallowed), number formatting.
@@ -68,7 +68,7 @@ After listing candidates, pick the strongest one yourself (or use one the user n
 
 - **title:** <chosen headline — full version>
 - **meta description:** <140–160 chars; on-voice; specific; not a tease>
-- **slug:** <kebab-case>  <!-- with slug_prefix from settings if set -->
+- **slug:** <kebab-case>  <!-- with ${user_config.slug_prefix} prepended if non-empty -->
 - **og:title:** <may differ from title if title >60 chars; punchier>
 - **og:description:** <can match meta description, or be slightly more conversational if voice allows>
 - **twitter:title:** <if different from og:title — usually not>
@@ -78,7 +78,7 @@ After listing candidates, pick the strongest one yourself (or use one the user n
 Rules:
 
 - **Meta description** completes the headline's promise in voice. Standalone sentence — doesn't depend on the headline being visible.
-- **Slug** uses `slug_prefix` if set.
+- **Slug** uses `${user_config.slug_prefix}` if non-empty.
 - Don't fabricate tags. If the draft doesn't give you concrete topical signals, omit the field rather than guess.
 
 ### Step 4 — offer to write metadata to the file

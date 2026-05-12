@@ -9,7 +9,7 @@ Two cooperating layers:
 
 ## What it does (skills)
 
-- **`/content-studio:init`** — scaffolds a starter `brand-voice.md` (with sections for voice, tone, vocabulary, examples, audience) plus a settings file at `.claude/content-studio.local.md`. The voice guide is intentionally placeholder-heavy; the user fills in the brand specifics.
+- **`/content-studio:init`** — writes a starter `brand-voice.md` (with sections for voice, tone, vocabulary, examples, audience) at the path configured in plugin settings. The voice guide is intentionally placeholder-heavy; the user fills in the brand specifics. Other plugin settings (output directory, default format, etc.) are configured separately via `userConfig` at plugin enable time — see [Settings](#settings) below.
 - **`/content-studio:brainstorm`** — divergent ideation. Takes a theme, raw material (interview notes, a product update, a transcript), or nothing at all, and produces 5–8 distinct angle candidates with hook sentences and a critic's note on which are strongest. Hand the chosen angle to `/outline`.
 - **`/content-studio:outline`** — turns a brief into a structured outline (hook, body sections with key points, CTA, headline candidates). Hand it to `/draft` or take it elsewhere.
 - **`/content-studio:draft`** — drafts a full article from a brief or outline. Writes the file to the configured output directory (default `./drafts`) in the chosen format. Refuses briefs that land in the voice guide's "Things we don't write about" list.
@@ -78,38 +78,41 @@ The memory directories are project-scoped — check them into git if you want th
 
 ## First-time setup
 
+Two steps:
+
+**1. Configure plugin settings (one-time, at enable time).**
+
+When you enable the plugin, Claude Code prompts you for five values (declared in the plugin's `userConfig`):
+
+| Field | Required? | Default | Purpose |
+|-------|-----------|---------|---------|
+| `voice_guide_path` | required | `./brand-voice.md` | Path to the brand voice markdown file. |
+| `output_dir` | optional | `./drafts` | Where `/draft` writes generated articles. |
+| `default_format` | optional | `markdown` | One of: `markdown`, `mdx`, `frontmatter`, `html`. Overridable per invocation. |
+| `slug_prefix` | optional | _empty_ | Prepended to slugs in frontmatter (e.g. `posts/` or `blog/`). |
+| `author` | optional | _empty_ | Written into frontmatter for `frontmatter` / `mdx` formats. |
+
+Values land under `pluginConfigs.content-studio.options` in the settings file matching your install scope (user / project / local). To change them later, run `/plugin` and reconfigure, or edit the values directly in `settings.json`.
+
+**2. Write the brand voice template:**
+
 ```text
 /content-studio:init
 ```
 
-That writes:
-
-1. `./brand-voice.md` (or wherever you choose) — the source of truth for tone, vocabulary, examples, audience.
-2. `.claude/content-studio.local.md` — plugin settings: voice guide path, output directory, default format.
+This writes a starter `brand-voice.md` at the path you configured in step 1 (default `./brand-voice.md`). It refuses to overwrite if a file already exists at that path — your voice guide is safe.
 
 Then edit `brand-voice.md`. The template's placeholders are doing the work of teaching what to write — replace every section. The highest-leverage section is **Examples** (on-voice / off-voice pairs); a couple of good pairs raise output quality more than any other input.
 
 ## Settings
 
-`.claude/content-studio.local.md` — gitignored project-local config:
+All settings are configured via the plugin's `userConfig` (see [First-time setup](#first-time-setup) above). The fields are referenced from skills and agents using `${user_config.<field>}` substitution — for example, `/content-studio:draft` writes files to `${user_config.output_dir}`.
 
-```yaml
----
-voice_guide_path: ./brand-voice.md
-output_dir: ./drafts
-default_format: markdown
----
-```
+To inspect or change current values:
+- Run `/plugin` to open the plugin manager, find `content-studio`, and reconfigure.
+- Or edit `settings.json` directly under `pluginConfigs.content-studio.options`.
 
-Fields:
-
-| Field | Default | Notes |
-|-------|---------|-------|
-| `voice_guide_path` | `./brand-voice.md` | Path to the brand voice markdown file. Required by every skill except `/init`. |
-| `output_dir` | `./drafts` | Where `/draft` writes generated articles. Created on first draft. |
-| `default_format` | `markdown` | One of: `markdown`, `mdx`, `frontmatter`, `html`. Overridable per invocation. |
-| `slug_prefix` | _none_ | Optional — prepended to slugs (e.g. `posts/`, `blog/`). |
-| `author` | _none_ | Optional — written into frontmatter for `frontmatter` / `mdx` formats. |
+> **Migrating from v1.x?** Earlier versions stored settings in `.claude/content-studio.local.md`. That file is no longer used — settings now live in your `settings.json` under `pluginConfigs`. After enabling v2.x, you can delete the old `.claude/content-studio.local.md` file.
 
 ## Output formats
 
@@ -123,7 +126,7 @@ Full per-format spec is in `skills/draft/references/output-formats.md`.
 ## Typical workflow
 
 ```text
-# First time in a project
+# First time in a project (after configuring userConfig at plugin enable)
 /content-studio:init
 # Then edit brand-voice.md with real brand content.
 

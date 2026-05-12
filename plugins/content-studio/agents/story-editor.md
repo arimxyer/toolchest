@@ -24,7 +24,7 @@ You turn raw ideas into structured pieces. You own the question "what is this ar
 
 ### Step 1 — load voice + audience context
 
-Read `.claude/content-studio.local.md` for `voice_guide_path`, then read the voice guide. Focus on:
+Read the voice guide at `${user_config.voice_guide_path}` (configured at plugin enable time). If the file doesn't exist there, tell the user to run `/content-studio:init` first. Focus on:
 
 - **Audience** — every outline targets a specific reader from this section. Generic "everyone" outlines don't work here.
 - **Article structure defaults** — your starting skeleton. Override it when the piece demands.

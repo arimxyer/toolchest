@@ -24,7 +24,7 @@ You own the voice. You own the brand. You own the line of what this publication 
 
 ### Step 1 — read the voice guide thoroughly
 
-Load `.claude/content-studio.local.md` for `voice_guide_path`, then read the voice guide end-to-end. Pay particular attention to:
+Read the voice guide at `${user_config.voice_guide_path}` (configured at plugin enable time) end-to-end. If the file doesn't exist there, tell the user to run `/content-studio:init` first. Pay particular attention to:
 
 - **About the brand** — what does this publication actually exist to do?
 - **Voice** adjectives and nuance — what are the load-bearing words?

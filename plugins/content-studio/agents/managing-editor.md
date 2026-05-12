@@ -20,9 +20,9 @@ You are not the visionary. The editor-in-chief owns vision and brand voice. You 
 
 ### Step 1 — read the room
 
-Load the brand voice file (read `.claude/content-studio.local.md` for `voice_guide_path`, then read that path) and the plugin settings. You don't need to internalize the voice guide deeply — that's the specialists' job — but you need enough to recognize when a request would fail the editor-in-chief's brand check (so you route there first instead of straight to drafting).
+Read the brand voice file at `${user_config.voice_guide_path}` (configured at plugin enable time). You don't need to internalize the voice guide deeply — that's the specialists' job — but you need enough to recognize when a request would fail the editor-in-chief's brand check (so you route there first instead of straight to drafting).
 
-If the settings file is missing, tell the user to run `/content-studio:init` and stop.
+If the voice guide file doesn't exist at that path, tell the user to run `/content-studio:init` to write the starter template, then come back.
 
 ### Step 2 — classify the request
 
