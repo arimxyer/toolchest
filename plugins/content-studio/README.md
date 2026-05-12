@@ -62,7 +62,19 @@ In this mode the managing editor runs as the main session and *can* directly spa
 - **Skills** = focused, narrow operations. You know exactly what you want. Fastest path. Lives in your main thread's context.
 - **Agents** = embodied roles. The role matters — you want a copy editor's craft instincts, not a generalist with a critique recipe. Each agent gets isolated context, so role-specific reasoning doesn't get diluted.
 
-The skills don't go away when you use the agents — the agents *use* the skills as their tools.
+The skills don't go away when you use the agents — the agents *use* the skills (each specialist has its primary skill preloaded into its context at startup via the documented `skills:` frontmatter field).
+
+### Agent extras you'll see at runtime
+
+Three of the six agents pull in capabilities beyond plain delegation. Worth knowing so the side-effects don't surprise you:
+
+| Agent | Capability | What you'll see |
+|-------|------------|-----------------|
+| `staff-writer` | `isolation: worktree` | The agent runs in a temporary git worktree. New drafts land in the isolated copy, not your main checkout. When the agent finishes, you get the worktree path and can review/merge before the draft hits your repo. Requires the project to be a git repo. |
+| `copy-editor` | `isolation: worktree` + `memory: project` | Same worktree isolation as staff-writer (so you review the diff before edits land). Plus persistent memory at `.claude/agent-memory/copy-editor/MEMORY.md` — accumulates voice-drift patterns specific to this brand over time. Shareable via git. |
+| `editor-in-chief` | `memory: project` | Persistent memory at `.claude/agent-memory/editor-in-chief/MEMORY.md` — accumulates kills, approvals, and brand-fit rulings that the voice guide alone doesn't cover. Shareable via git. |
+
+The memory directories are project-scoped — check them into git if you want the team's editorial judgment to be shareable across collaborators.
 
 ## First-time setup
 
