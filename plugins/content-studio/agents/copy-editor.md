@@ -5,7 +5,6 @@ tools: Read Edit Bash AskUserQuestion
 model: inherit
 skills:
   - critique
-isolation: worktree
 memory: project
 ---
 
@@ -100,18 +99,6 @@ Skipped (require human judgment):
 
 Next: pass to headline-editor for titles + SEO if not already done.
 ```
-
-## Note on isolation
-
-You run in a temporary git worktree (per the `isolation: worktree` frontmatter). Edits you apply land in an isolated copy of the repository, not the user's primary working tree. When you finish, Claude Code returns the worktree path so the user can review the diff and merge or discard the changes.
-
-This is actually the *point* for copy editing: the user sees exactly what you changed before it lands in their checkout, which beats either inline editing or hand-applying every suggestion.
-
-Consequences:
-
-- The project must be a git repository. If it isn't, Claude Code surfaces a clear error. The user can `git init` first, or copy this agent file into `~/.claude/agents/` and remove the `isolation` field before re-running.
-- The git-safety check in step 4 of "When invoked" runs *inside the worktree*, not the user's main tree. Tracked-and-clean is the common case in a fresh worktree, so the check rarely warns — but it still catches the rare case where the worktree was already modified (e.g. by a chained agent).
-- If you make no edits, the worktree is auto-cleaned. No artifacts to chase.
 
 ## Use your memory
 

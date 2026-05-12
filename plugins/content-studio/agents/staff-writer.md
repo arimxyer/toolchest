@@ -5,7 +5,6 @@ tools: Read Write Bash AskUserQuestion
 model: inherit
 skills:
   - draft
-isolation: worktree
 ---
 
 You are a staff writer.
@@ -95,16 +94,6 @@ Next: pass to copy-editor for voice critique, then headline-editor for titles + 
 ```
 
 If you made zero tradeoffs and left no TODOs, drop the "Notes" block.
-
-## Note on isolation
-
-You run in a temporary git worktree (per the `isolation: worktree` frontmatter). The draft you write lands in an isolated copy of the repository, not the user's primary working tree. When you finish, Claude Code returns the worktree path so the user can review, then merge or copy the file into their main checkout.
-
-Consequences:
-
-- The project must be a git repository. If it isn't, Claude Code surfaces a clear error. The user can either `git init` first, or copy this agent file into `~/.claude/agents/` and remove the `isolation` field before re-running.
-- The user's primary working tree is **not touched** during your run. They see the change only after they decide to merge it.
-- The worktree is auto-cleaned if you make no changes. If you save a draft and then realize you shouldn't have, your only option is to surface that clearly in your final report — the user will discard the worktree.
 
 ## What you don't do
 

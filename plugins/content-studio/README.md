@@ -66,15 +66,16 @@ The skills don't go away when you use the agents — the agents *use* the skills
 
 ### Agent extras you'll see at runtime
 
-Three of the six agents pull in capabilities beyond plain delegation. Worth knowing so the side-effects don't surprise you:
+Two of the six agents accumulate persistent memory. Worth knowing so the side-effects don't surprise you:
 
 | Agent | Capability | What you'll see |
 |-------|------------|-----------------|
-| `staff-writer` | `isolation: worktree` | The agent runs in a temporary git worktree. New drafts land in the isolated copy, not your main checkout. When the agent finishes, you get the worktree path and can review/merge before the draft hits your repo. Requires the project to be a git repo. |
-| `copy-editor` | `isolation: worktree` + `memory: project` | Same worktree isolation as staff-writer (so you review the diff before edits land). Plus persistent memory at `.claude/agent-memory/copy-editor/MEMORY.md` — accumulates voice-drift patterns specific to this brand over time. Shareable via git. |
 | `editor-in-chief` | `memory: project` | Persistent memory at `.claude/agent-memory/editor-in-chief/MEMORY.md` — accumulates kills, approvals, and brand-fit rulings that the voice guide alone doesn't cover. Shareable via git. |
+| `copy-editor` | `memory: project` | Persistent memory at `.claude/agent-memory/copy-editor/MEMORY.md` — accumulates voice-drift patterns specific to this brand over time. Shareable via git. |
 
 The memory directories are project-scoped — check them into git if you want the team's editorial judgment to be shareable across collaborators.
+
+The file-touching agents (`staff-writer`, `copy-editor`) write directly to your working tree, not to a temporary git worktree. Drafts land in `${user_config.output_dir}` and copy edits land in the file the user pointed at — review with `git diff` afterward.
 
 ## First-time setup
 
