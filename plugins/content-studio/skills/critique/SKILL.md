@@ -4,6 +4,8 @@ description: Critique an existing article draft against the project's brand voic
 when_to_use: When the user runs /content-studio:critique, or asks to "review this post for voice", "check this draft against the brand guide", "audit this article", or "what's off-voice in this draft".
 argument-hint: <path-to-draft>
 allowed-tools: Read Edit Bash AskUserQuestion
+context: fork
+agent: copy-editor
 ---
 
 # critique
