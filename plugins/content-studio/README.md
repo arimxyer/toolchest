@@ -2,9 +2,12 @@
 
 Write, outline, critique, and headline articles for a website that follows a brand voice guide.
 
-Five user-invoked skills that read a project-local brand voice markdown file and emit drafts in markdown, MDX, frontmatter+body, or HTML — whichever format the destination expects.
+Two cooperating layers:
 
-## What it does
+- **Six user-invoked skills** that read a project-local brand voice markdown file and emit drafts in markdown, MDX, frontmatter+body, or HTML — whichever format the destination expects.
+- **A writer's room** of six specialist agents (`managing-editor`, `editor-in-chief`, `story-editor`, `staff-writer`, `copy-editor`, `headline-editor`) that wrap the skills with role-specific philosophy and isolated context. Use the skills for direct, narrow tasks; engage the agents when you want an embodied role to do the work.
+
+## What it does (skills)
 
 - **`/content-studio:init`** — scaffolds a starter `brand-voice.md` (with sections for voice, tone, vocabulary, examples, audience) plus a settings file at `.claude/content-studio.local.md`. The voice guide is intentionally placeholder-heavy; the user fills in the brand specifics.
 - **`/content-studio:brainstorm`** — divergent ideation. Takes a theme, raw material (interview notes, a product update, a transcript), or nothing at all, and produces 5–8 distinct angle candidates with hook sentences and a critic's note on which are strongest. Hand the chosen angle to `/outline`.
@@ -12,6 +15,54 @@ Five user-invoked skills that read a project-local brand voice markdown file and
 - **`/content-studio:draft`** — drafts a full article from a brief or outline. Writes the file to the configured output directory (default `./drafts`) in the chosen format. Refuses briefs that land in the voice guide's "Things we don't write about" list.
 - **`/content-studio:critique`** — reviews an existing draft against the voice guide. Reports violations (vocabulary, style, tone drift, structure, subject matter) with line refs and suggested rewrites. Offers to apply the edits, with a git-safety check before touching dirty or untracked files.
 - **`/content-studio:headlines`** — produces 5–8 headline candidates across different angles, then a full SEO/social metadata bundle (meta description, slug, og:title, tags) for the chosen one.
+
+## The writer's room (agents)
+
+Six specialist agents, each with isolated context and a distinct role. Use them when you want the *role* doing the work — a copy editor has internalized different craft rules than a staff writer, and a draft critiqued by the `copy-editor` agent is different from one critiqued by the same skill in your main thread.
+
+| Agent | Role |
+|-------|------|
+| `managing-editor` | The front door. Listens to broad or multi-step requests, decides which specialists are needed, either delegates directly (in agent-mode) or returns a routing plan. Doesn't draft, critique, or argue brand — just routes. |
+| `editor-in-chief` | Strategic vision and brand-voice gatekeeper. Can — and will — kill pieces that don't fit the publication. Use for "should we write about X?" and "does this fit our voice at a strategic level?" |
+| `story-editor` | Owns angles, outlines, structure. "What is this piece arguing?" is their starting question. Use for angle development, outlining, and mid-draft restructuring. |
+| `staff-writer` | The craft heavy-lifter. Turns outlines and briefs into prose in the brand voice. Leaves honest TODOs rather than fabricating slots. |
+| `copy-editor` | Voice-fidelity reviewer. Reads slowly, suggests rewrites with line refs, applies them with a git-safety check after explicit approval. |
+| `headline-editor` | Owns titles, meta descriptions, slugs, og:title, social previews. Thinks in characters and search-result truncation. |
+
+### How to engage the room
+
+Two invocation patterns:
+
+**Normal session — invoke specialists by name.**
+
+```text
+> Have the copy-editor look at ./drafts/lexcheck-12-minute-review.md
+> Ask the story-editor to outline a piece on contract automation
+> Have the editor-in-chief tell me if "AI for paralegals" fits our voice
+```
+
+In a normal Claude Code session, the `managing-editor` agent can think about routing but cannot directly spawn other specialist subagents (Claude Code currently allows only one level of subagent depth). If you invoke it here, it'll return a routing plan that Main Claude can execute, rather than driving the chain itself.
+
+**Agent-mode session — managing editor drives the chain.**
+
+```bash
+claude --agent content-studio:managing-editor
+```
+
+In this mode the managing editor runs as the main session and *can* directly spawn the specialists. Walking into the newsroom and talking to the editor first, who pulls in the right people behind the scenes:
+
+```text
+> I want to put out a piece about contract automation this week
+# managing-editor pulls in editor-in-chief for brand fit, then story-editor for angles,
+# checks in with you, then staff-writer for the draft, then copy-editor, then headline-editor.
+```
+
+### Skills vs. agents — when to use which
+
+- **Skills** = focused, narrow operations. You know exactly what you want. Fastest path. Lives in your main thread's context.
+- **Agents** = embodied roles. The role matters — you want a copy editor's craft instincts, not a generalist with a critique recipe. Each agent gets isolated context, so role-specific reasoning doesn't get diluted.
+
+The skills don't go away when you use the agents — the agents *use* the skills as their tools.
 
 ## First-time setup
 
