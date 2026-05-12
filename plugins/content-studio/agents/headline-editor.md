@@ -81,6 +81,12 @@ Rules:
 - **Slug** uses `${user_config.slug_prefix}` if non-empty.
 - Don't fabricate tags. If the draft doesn't give you concrete topical signals, omit the field rather than guess.
 
+### Persist the headlines bundle to the piece directory
+
+If the target draft lives inside a piece directory — path matches `${user_config.output_dir}/<slug>/draft.<ext>` — also write the candidates list + chosen metadata to `${user_config.output_dir}/<slug>/headlines.md`. **Overwrite** if it already exists; the most recent set is canonical. (Unlike the copy-editor's appending critique history, headlines are a one-shot per piece — no value in stacked histories.)
+
+If the target is not inside a piece dir, skip the file write — chat output is enough.
+
 ### Step 4 — offer to write metadata to the file
 
 If the user came in with a draft file path AND the file's format supports frontmatter (markdown with frontmatter, MDX), offer:

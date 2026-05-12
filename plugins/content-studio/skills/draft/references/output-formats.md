@@ -97,14 +97,27 @@ Example skeleton:
 
 Do not emit `<html>`, `<head>`, or `<body>` wrappers — the article fragment is what the destination expects.
 
-## File naming
+## File naming and per-piece directories
+
+Each piece lives in its own folder. The draft is one of several artifacts that can accumulate alongside it (`outline.md`, `critique.md`, `headlines.md`).
 
 - Slugify the title: lowercase, hyphenate, strip punctuation, max ~60 chars.
-- Final filename: `${user_config.output_dir}/<slug><ext>` where `<ext>` is the format's extension.
-- If a file at that path already exists, append `-2`, `-3`, etc. Do not overwrite.
+- Piece directory: `${user_config.output_dir}/<slug>/`
+- Draft file inside the piece dir: `draft<ext>` where `<ext>` is the format's extension.
+- Final draft path: `${user_config.output_dir}/<slug>/draft<ext>`
+
+If the piece directory already contains a `draft<ext>`, **increment the slug, not the file** — create `<slug>-2/draft<ext>`. Each piece stays in its own folder; we don't collapse multiple drafts into one dir.
+
+Other artifacts the piece folder may accumulate (written by their respective skills, not `/draft`):
+
+| File | Written by | When |
+|------|-----------|------|
+| `outline.md` | `/draft` | If the brief contained an inline outline, saved alongside the draft for traceability |
+| `critique.md` | `/critique` | Whenever the draft is critiqued; appends with date heading |
+| `headlines.md` | `/headlines` | Whenever headlines are generated for the draft; overwrites |
 
 ## Common across all formats
 
-- The article is always written to `${user_config.output_dir}` (default `./drafts`). Create the directory if it doesn't exist.
-- Emit the path of the created file to the user when done.
+- Articles are always written under `${user_config.output_dir}` (default `./drafts`). Create the piece directory if it doesn't exist.
+- Emit the piece directory path to the user when done.
 - Never write to a path outside `${user_config.output_dir}` without explicit user confirmation — even if the user pastes an absolute path in their brief.

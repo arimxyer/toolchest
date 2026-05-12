@@ -92,30 +92,41 @@ Before calling `Write`, scan the draft once more:
 2. Voice guide examples — does any paragraph read like the "off-voice" examples? If yes, rewrite.
 3. Format spec — frontmatter (if applicable) has all required fields; body uses only constructs the format permits (e.g. no JSX in plain markdown, no `<html>` wrapper in HTML format).
 
-## Step 6 — write the file
+## Step 6 — write the piece
 
-- Create `${user_config.output_dir}` if it doesn't exist (`mkdir -p`).
-- Final path: `${user_config.output_dir}/<slug><ext>` where `<ext>` matches the format.
-- If a file already exists at that path, append `-2`, `-3`, etc. Never overwrite.
-- Use the `Write` tool.
+Each piece lives in its own folder under `${user_config.output_dir}`. The draft is one of several artifacts that can accumulate alongside it (outline, critique, headlines).
+
+- The piece directory: `${user_config.output_dir}/<slug>/`
+- The draft file inside it: `draft<ext>` where `<ext>` matches the format (`.md`, `.mdx`, `.html`).
+- Final draft path: `${user_config.output_dir}/<slug>/draft<ext>`
+
+Steps:
+
+1. `mkdir -p ${user_config.output_dir}/<slug>` — create the piece directory.
+2. If the piece directory already contained a `draft<ext>`, **increment the slug, not the file**. Create `<slug>-2/draft<ext>` instead. Each piece stays in its own folder; we don't collapse multiple drafts into one dir.
+3. Write the draft via the `Write` tool to the final path.
+4. **If the brief contained an inline outline** (the user pasted one in, e.g. from `/content-studio:outline`), also save the outline alongside the draft as `${user_config.output_dir}/<slug>/outline.md`. This makes the piece self-documenting — `/critique` and `/headlines` can reference the outline later. If the user only gave a topic or brief (no outline), skip this; don't fabricate an outline file.
 
 After writing, print to chat:
 
 ```
-✓ Draft written: <path>
+✓ Piece created: <output_dir>/<slug>/
+  ├── draft<ext>        (just written)
+  ├── outline.md        (saved from the brief, if applicable)
 
 Voice notes:
 - <one-line note on any voice-guide tradeoff you made, if any>
 - <one-line note on anything you couldn't fully resolve from the brief — e.g. "left a TODO for the customer-quote slot since the brief didn't supply one">
 
-Next: open the file, edit, then run /content-studio:critique <path> for a voice-guide check.
+Next: open <output_dir>/<slug>/draft<ext>, edit, then run /content-studio:critique <output_dir>/<slug>/draft<ext> for a voice-guide check.
 ```
 
-If you made zero tradeoffs and left no TODOs, drop the "Voice notes" section entirely. Don't fabricate one to fill space.
+Omit the `outline.md` line from the tree if you didn't save one. If you made zero tradeoffs and left no TODOs, drop the "Voice notes" section entirely. Don't fabricate one to fill space.
 
 ## What this skill does not do
 
 - It does not look up SEO keyword volume, do competitor research, or fetch reference URLs. Bring those in the brief.
 - It does not publish, schedule, or commit the draft. It writes one file to the output directory and stops.
 - It does not generate images or alt-text — leave image slots as `<!-- TODO: image -->`.
-- It does not draft outside `${user_config.output_dir}` unless the user gives an absolute path AND confirms.
+- It does not create pieces outside `${user_config.output_dir}` unless the user gives an absolute path AND confirms.
+- It does not collapse multiple drafts into one piece directory. Re-running `/draft` with the same title produces a new `<slug>-2/` folder, not a `draft-2<ext>` file. If the user wants iterations of the same piece, they can edit `<slug>/draft<ext>` in place or copy it to a sibling for comparison.

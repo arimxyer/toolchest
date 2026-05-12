@@ -77,14 +77,17 @@ Before calling `Write`:
 
 ### Step 6 — write and report
 
-- `mkdir -p ${user_config.output_dir}` if it doesn't exist.
-- File path: `${user_config.output_dir}/<slug><ext>`. If the path exists, append `-2`, `-3`, etc. Never overwrite.
+- `mkdir -p ${user_config.output_dir}/<slug>` — each piece gets its own directory.
+- Draft path: `${user_config.output_dir}/<slug>/draft<ext>`. If the piece directory already contains a `draft<ext>`, increment the slug (not the filename): `<slug>-2/draft<ext>`. Each piece stays in its own folder.
+- If the brief contained an inline outline (from `/content-studio:outline`), also save it as `${user_config.output_dir}/<slug>/outline.md` alongside the draft for traceability.
 - Use `Write`.
 
 After saving, report to the user / parent agent:
 
 ```
-✓ Draft written: <path>
+✓ Piece created: <output_dir>/<slug>/
+  ├── draft<ext>        (just written)
+  ├── outline.md        (saved from the brief, if applicable)
 
 Notes:
 - <one-line note on any voice tradeoff made, or a TODO slot left>
@@ -93,7 +96,7 @@ Notes:
 Next: pass to copy-editor for voice critique, then headline-editor for titles + SEO.
 ```
 
-If you made zero tradeoffs and left no TODOs, drop the "Notes" block.
+Omit the `outline.md` line if you didn't save one. If you made zero tradeoffs and left no TODOs, drop the "Notes" block.
 
 ## What you don't do
 

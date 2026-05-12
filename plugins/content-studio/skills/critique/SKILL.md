@@ -73,7 +73,20 @@ If there are zero findings, say so explicitly:
 No voice-guide violations found. The draft is on-voice.
 ```
 
-Print the report to chat. Do not write it to a file unless the user asks.
+Print the report to chat.
+
+### Persist the critique to the piece directory (when applicable)
+
+If the target draft lives inside a piece directory (i.e. the path matches `${user_config.output_dir}/<slug>/draft.<ext>`), also write the critique report to `${user_config.output_dir}/<slug>/critique.md`. This keeps the piece's history in one place.
+
+**Append behavior on subsequent runs:**
+
+- If `critique.md` does not exist in the piece dir, create it with the report as its content.
+- If `critique.md` already exists, **append** the new report to the end with a date heading (e.g. `## Critique — 2026-05-12`). Critique history compounds — earlier passes show what was fixed and what's recurring.
+
+If the target draft is **not** inside a piece directory (e.g. a flat-structure draft from before per-piece, or a one-off file the user pointed at), skip the critique.md write. Chat output only. Don't try to create a piece dir retroactively.
+
+To detect: check whether the parent directory of the target draft is itself under `${user_config.output_dir}` and the draft file is named `draft.<ext>`. If both are true, it's a piece dir.
 
 ## Step 3 — offer to apply edits
 
@@ -123,12 +136,15 @@ After applying:
 ✓ Applied N edits to <draft path>
   - L<line>: "<before>" → "<after>"
   - …
+✓ Critique saved: <piece-dir>/critique.md   (only if the draft is in a piece dir)
 
 Skipped (require human judgment):
   - <style/structure/subject-matter items that weren't auto-applied>
 
 Run /content-studio:critique <draft path> again to verify, or git diff to review.
 ```
+
+Omit the "Critique saved" line if the target was a flat-structure draft and no piece-dir critique.md was written.
 
 ## What this skill does not do
 

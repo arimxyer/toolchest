@@ -76,6 +76,18 @@ Rules for metadata:
 - **Slug** uses `${user_config.slug_prefix}` if non-empty; otherwise just the slugified title.
 - Honor `${user_config.default_format}`: if it's `frontmatter` or `mdx`, the metadata bundle maps directly into the frontmatter fields the `/draft` skill would emit. Call that out at the end so the user can paste it straight in.
 
+### Persist the headlines bundle to the piece directory (when applicable)
+
+If the target draft lives inside a piece directory (path matches `${user_config.output_dir}/<slug>/draft.<ext>`), also write the chat output — the candidates list + chosen metadata bundle — to `${user_config.output_dir}/<slug>/headlines.md`.
+
+**Overwrite behavior on subsequent runs:**
+
+- If `headlines.md` exists in the piece dir, **overwrite** it. Headlines are a one-shot per piece; the most recent set is canonical. No value in stacked history (unlike `critique.md`, which appends).
+
+If the target draft is **not** inside a piece directory (a flat-structure draft or a one-off file), skip the file write. Chat output only.
+
+To detect: parent directory of the target draft is itself under `${user_config.output_dir}` and the draft file is named `draft.<ext>`. If both are true, it's a piece dir.
+
 ## Step 4 — close
 
 End with:

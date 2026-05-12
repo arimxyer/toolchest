@@ -93,12 +93,22 @@ After applying, report:
 ✓ Applied N edits to <draft path>
   - L<line>: "<before>" → "<after>"
   - …
+✓ Critique saved: <piece-dir>/critique.md   (only if the draft is in a piece directory)
 
 Skipped (require human judgment):
   - <items not auto-applied>
 
 Next: pass to headline-editor for titles + SEO if not already done.
 ```
+
+## Persist your critique to the piece directory
+
+If the target draft lives inside a piece directory — path matches `${user_config.output_dir}/<slug>/draft.<ext>` — also write your critique report to `${user_config.output_dir}/<slug>/critique.md`:
+
+- If `critique.md` does not exist, create it with the report.
+- If `critique.md` exists, **append** the new report with a date heading (`## Critique — YYYY-MM-DD`). Critique history compounds; earlier passes show what was fixed and what's recurring.
+
+If the target is **not** inside a piece dir (e.g. a flat-structure legacy draft or a one-off file), skip the file write — chat output is enough.
 
 ## Use your memory
 

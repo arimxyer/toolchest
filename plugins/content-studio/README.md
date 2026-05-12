@@ -124,6 +124,38 @@ To inspect or change current values:
 
 Full per-format spec is in `skills/draft/references/output-formats.md`.
 
+## Workspace structure (per-piece folders)
+
+Each piece gets its own folder under `${user_config.output_dir}`. The skills cooperate to populate that folder with all the artifacts for one article — draft, outline, critique history, headline bundle — in one place.
+
+```
+${user_config.output_dir}/
+└── lexcheck-12-minute-review/   # one piece = one folder, named after the slug
+    ├── draft.md                 # /draft writes this (canonical artifact)
+    ├── outline.md               # /draft saves the inline outline if the brief had one
+    ├── critique.md              # /critique appends new reports with date headings
+    └── headlines.md             # /headlines overwrites with the most recent bundle
+```
+
+### Which skill writes what
+
+| Skill | File | Write behavior |
+|-------|------|----------------|
+| `/draft` | `<slug>/draft.<ext>` | Creates the piece directory; the extension matches the format. Same slug colliding with an existing piece increments to `<slug>-2/`. |
+| `/draft` | `<slug>/outline.md` | Saves the outline alongside the draft, only if one was supplied inline in the brief. |
+| `/critique` | `<piece>/critique.md` | **Appends** with date heading when run against a draft inside a piece directory. Chat-only for flat-structure or one-off drafts. |
+| `/headlines` | `<piece>/headlines.md` | **Overwrites** when run against a draft inside a piece directory. Chat-only for flat-structure drafts. |
+
+`/outline`, `/brainstorm`, and `/init` don't write piece-dir files. Outline iteration happens in chat (premature naming hurts), brainstorming precedes piece creation, and `/init` writes the brand voice file at `${user_config.voice_guide_path}`, not under the output dir.
+
+### Why per-piece folders
+
+Three things make the convention earn its weight:
+
+1. **Everything for one article is in one place.** Open the folder; see the draft, the outline that produced it, what the copy-editor flagged, the headline candidates. No scavenger hunt across `drafts/`, `critiques/`, `metadata/`.
+2. **Critique history compounds.** Append-mode on `critique.md` means the third pass on a piece can see what the first two caught. The piece's editorial journey is legible.
+3. **Pieces are versioned by slug-incrementing, not file-suffixing.** A second draft of the same idea becomes its own folder (`<slug>-2/`), keeping each piece self-contained.
+
 ## Typical workflow
 
 ```text
@@ -137,13 +169,17 @@ Full per-format spec is in `skills/draft/references/output-formats.md`.
 /content-studio:outline a piece on why batching legal review hurts ops velocity
 # … review the outline, edit, then …
 /content-studio:draft <paste the outline + any extra constraints>
-# … draft is written to ./drafts/<slug>.md
+# … piece folder created at ./drafts/<slug>/
+# …   draft.md (the prose)
+# …   outline.md (saved alongside since the brief had an inline outline)
 
-/content-studio:critique ./drafts/<slug>.md
-# … review the report, apply edits, iterate.
+/content-studio:critique ./drafts/<slug>/draft.md
+# … review the report; critique.md is also written into the piece folder.
+# … re-running /critique appends to critique.md with a new date heading.
 
-/content-studio:headlines ./drafts/<slug>.md
-# … pick a headline, paste metadata into frontmatter, ship.
+/content-studio:headlines ./drafts/<slug>/draft.md
+# … pick a headline; headlines.md is written into the piece folder (overwrites on re-run).
+# … paste the metadata bundle into the draft's frontmatter, ship.
 ```
 
 ## What this plugin does not do
