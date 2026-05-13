@@ -3,7 +3,9 @@ name: headlines
 description: Generate headline variations and SEO metadata (meta description, slug, og:title) for an article in the project's brand voice.
 when_to_use: When the user runs /content-studio:headlines, or asks for "headline options for this post", "title variations", "an og:title", a "meta description", "SEO metadata", or "a better title for this article".
 argument-hint: <topic, brief, or draft path>
-allowed-tools: Read AskUserQuestion
+allowed-tools: Read Edit Write Bash AskUserQuestion
+context: fork
+agent: headline-editor
 ---
 
 # headlines
@@ -88,17 +90,50 @@ If the target draft is **not** inside a piece directory (a flat-structure draft 
 
 To detect: parent directory of the target draft is itself under `${user_config.output_dir}` and the draft file is named `draft.<ext>`. If both are true, it's a piece dir.
 
-## Step 4 — close
+## Step 4 — offer to update the draft's frontmatter
+
+This step only runs if `$ARGUMENTS` was a path to an existing draft file AND the file's format supports frontmatter (markdown with frontmatter, MDX). Otherwise skip to Step 5.
+
+Ask the user via `AskUserQuestion`:
+
+> Update `<path>`'s frontmatter with these fields?
+>
+> - Yes — apply the metadata bundle to the draft's frontmatter
+> - No — leave the file unchanged
+
+If the user picks **No**, skip to Step 5.
+
+If the user picks **Yes**, run a git status check on the draft path *before* calling `Edit`:
+
+```bash
+git ls-files --error-unmatch <draft-path> 2>&1
+git status --porcelain <draft-path>
+```
+
+Four cases:
+
+- **Tracked + clean** (`ls-files` exits 0 AND porcelain output is empty): proceed to apply.
+- **Tracked + dirty** (porcelain shows `M` / `A` / etc.): warn the user that the file has uncommitted changes that could be lost, and ask:
+  > The file has uncommitted changes. Apply frontmatter update anyway, or commit / stash first?
+  > - Apply anyway
+  > - Stop so I can commit first
+- **Untracked** (`ls-files` errors with `error: pathspec`): warn that the file isn't in git and there's no easy rollback, and ask the same question.
+- **No git repo** (`git status` errors): warn there's no git safety net, and ask:
+  > This project isn't a git repo, so I can't offer rollback. Apply frontmatter update anyway?
+
+If the user picks "Stop", skip to Step 5. The headlines bundle is still in chat and (if applicable) saved to the piece dir.
+
+If approved, use `Edit` to modify the frontmatter block in place — only the frontmatter, never the body. Map the metadata bundle fields directly to frontmatter keys (`title`, `description`, `slug`, `og:title`/`ogTitle`, etc., matching the existing frontmatter's casing convention).
+
+## Step 5 — close
 
 End with:
 
-> Pick a candidate above and reply with the number to lock metadata for a different headline, or paste this bundle into the article's frontmatter.
+> Pick a candidate above and reply with the number to lock metadata for a different headline.
 
-If the user came in with a draft file path, also offer:
+If the draft frontmatter wasn't updated (no draft path, or user said no, or stopped at git-safety), also offer:
 
-> Or I can update `<path>`'s frontmatter directly with these fields — say the word.
-
-If the user asks to update the file, do the edit; use the same git-safety pattern as `/critique` (warn on dirty/untracked).
+> Or paste the metadata bundle above into the article's frontmatter yourself.
 
 ## What this skill does not do
 

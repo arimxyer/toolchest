@@ -1,7 +1,7 @@
 {
   "name": "content-studio",
   "description": "A brand-voice-driven writer's room — six user-invoked skills (init, brainstorm, outline, draft, critique, headlines) plus six specialist agents (managing-editor, editor-in-chief, story-editor, staff-writer, copy-editor, headline-editor). Each piece gets its own folder under the configured output directory (draft.md, outline.md, critique.md, headlines.md), keeping all artifacts for one article in one place. Outputs in markdown, MDX, frontmatter+body, or HTML.",
-  "version": "3.1.5",
+  "version": "3.2.0",
   "author": {
     "name": "arimxyer",
     "url": "https://github.com/arimxyer"

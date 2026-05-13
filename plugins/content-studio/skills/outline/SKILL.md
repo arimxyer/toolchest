@@ -4,6 +4,8 @@ description: Generate a structured article outline (hook, sections with key poin
 when_to_use: When the user runs /content-studio:outline, or asks for "an outline for a post about X", "structure a blog post on Y", "plan an article about Z", or wants headings and key points before drafting.
 argument-hint: <topic or brief>
 allowed-tools: Read AskUserQuestion
+context: fork
+agent: story-editor
 ---
 
 # outline

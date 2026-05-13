@@ -5,7 +5,7 @@ Write, outline, critique, and headline articles for a website that follows a bra
 Two cooperating layers:
 
 - **Six user-invoked skills** that read a project-local brand voice markdown file and emit drafts in markdown, MDX, frontmatter+body, or HTML — whichever format the destination expects.
-- **A writer's room** of six specialist agents (`managing-editor`, `editor-in-chief`, `story-editor`, `staff-writer`, `copy-editor`, `headline-editor`) that wrap the skills with role-specific philosophy and isolated context. Use the skills for direct, narrow tasks; engage the agents when you want an embodied role to do the work.
+- **A writer's room** of six specialist agents (`managing-editor`, `editor-in-chief`, `story-editor`, `staff-writer`, `copy-editor`, `headline-editor`). Five of the six are paired with a skill — running the skill spawns a fork with the agent's file as the system prompt, so the procedure is executed by a session that thinks like the role. The sixth (`managing-editor`) is the routing front door.
 
 ## What it does (skills)
 
@@ -18,7 +18,7 @@ Two cooperating layers:
 
 ## The writer's room (agents)
 
-Six specialist agents, each with isolated context and a distinct role. Use them when you want the *role* doing the work — a copy editor has internalized different craft rules than a staff writer, and a draft critiqued by the `copy-editor` agent is different from one critiqued by the same skill in your main thread.
+Six specialist agents, each with isolated context and a distinct role. A copy editor has internalized different craft rules than a staff writer, and a draft critiqued by the `copy-editor` is different from one critiqued by a generic prompt — the persona shapes what gets flagged, what gets defended, and what gets pushed back on.
 
 | Agent | Role |
 |-------|------|
@@ -31,13 +31,23 @@ Six specialist agents, each with isolated context and a distinct role. Use them 
 
 ### How to engage the room
 
-Two invocation patterns:
+Three ways in:
 
-**Normal session — invoke specialists by name.**
+**Canonical: run the slash command.** This is the default and the most reliable. Each skill is wired to its specialist via `context: fork`, so the persona drives the procedure.
 
 ```text
-> Have the copy-editor look at ./drafts/lexcheck-12-minute-review.md
-> Ask the story-editor to outline a piece on contract automation
+/content-studio:brainstorm we want to write more about legal-review velocity at growing companies
+/content-studio:outline a piece on why batching contract review hurts ops velocity
+/content-studio:draft <paste outline + any constraints>
+/content-studio:critique ./drafts/<slug>/draft.md
+/content-studio:headlines ./drafts/<slug>/draft.md
+```
+
+**Conversational: invoke a specialist by name.** Useful for advisory reads — "would a copy-editor flag this?", "does this premise fit our voice?" — where you don't need the structured output of the canonical path. `editor-in-chief` is conversational-only.
+
+```text
+> Have the copy-editor look at this paragraph and flag any voice issues
+> Ask the story-editor if this outline has a real thesis
 > Have the editor-in-chief tell me if "AI for paralegals" fits our voice
 ```
 
@@ -57,25 +67,25 @@ In this mode the managing editor runs as the main session and *can* directly spa
 # checks in with you, then staff-writer for the draft, then copy-editor, then headline-editor.
 ```
 
-### Skills vs. agents — when to use which
+### Skills and agents — how they're wired
 
-- **Skills** = focused, narrow operations. You know exactly what you want. Fastest path. Lives in your main thread's context.
-- **Agents** = embodied roles. The role matters — you want a copy editor's craft instincts, not a generalist with a critique recipe. Each agent gets isolated context, so role-specific reasoning doesn't get diluted.
+The five skill-backed agents (`staff-writer`, `copy-editor`, `headline-editor`, `story-editor` via two skills, and the conversational-only `editor-in-chief`) are deliberately split into two files each: a slash-command skill that carries the *procedure*, and an agent definition that carries the *persona*.
 
-The skills don't go away when you use the agents — the agents *use* the skills (each specialist has its primary skill preloaded into its context at startup via the documented `skills:` frontmatter field).
+- The skill knows the per-piece folder layout, the report format, the git-safety flow, the file-write mechanics.
+- The agent knows the voice, the craft instincts, the editorial line — "what would a copy editor flag?" — and not much more.
 
-### Agent extras you'll see at runtime
+The skills declare `context: fork` plus an `agent:` reference, so running a slash command like `/content-studio:draft` spawns a fork with the agent file as the system prompt and the skill body as the task. You get the procedure executed by a session that thinks like the role.
 
-Two of the six agents accumulate persistent memory. Worth knowing so the side-effects don't surprise you:
+The two paths into each role:
 
-| Agent | Capability | What you'll see |
-|-------|------------|-----------------|
-| `editor-in-chief` | `memory: project` | Persistent memory at `.claude/agent-memory/editor-in-chief/MEMORY.md` — accumulates kills, approvals, and brand-fit rulings that the voice guide alone doesn't cover. Shareable via git. |
-| `copy-editor` | `memory: project` | Persistent memory at `.claude/agent-memory/copy-editor/MEMORY.md` — accumulates voice-drift patterns specific to this brand over time. Shareable via git. |
+- **Canonical (slash command):** `/content-studio:draft`, `/content-studio:critique`, `/content-studio:headlines`, `/content-studio:brainstorm`, `/content-studio:outline`. Reliable file production (where applicable), structured output, persona engaged.
+- **Conversational (natural language):** "have the copy-editor look at this paragraph", "ask the story-editor if this thesis is real". Persona engaged, but no canonical procedure — best for advisory reads. `editor-in-chief` is conversational-only; it has no slash command.
 
-The memory directories are project-scoped — check them into git if you want the team's editorial judgment to be shareable across collaborators.
+### Agent runtime notes
 
-The file-touching agents (`staff-writer`, `copy-editor`) write directly to your working tree, not to a temporary git worktree. Drafts land in `${user_config.output_dir}` and copy edits land in the file the user pointed at — review with `git diff` afterward.
+The file-touching skills (`/draft`, `/critique`, `/headlines`) write directly to your working tree under `${user_config.output_dir}`. No worktree isolation. Review with `git diff`.
+
+Per-project context that the plugin doesn't manage explicitly (Claude Code's auto-memory) may accumulate at `~/.claude/projects/<encoded-cwd>/memory/` as you use the plugin in a given working directory. That's a Claude Code feature, not a plugin feature — the plugin doesn't read, write, or rely on it.
 
 ## First-time setup
 

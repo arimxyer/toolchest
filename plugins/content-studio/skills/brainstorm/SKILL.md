@@ -4,6 +4,8 @@ description: Brainstorm article angles, hooks, and framings for the project's br
 when_to_use: When the user runs /content-studio:brainstorm, or asks to "help me figure out what to write", "give me angles for X", "find a hook for this idea", "what could we write about Y", "turn this customer call into post ideas", or has raw material (a product update, interview notes, a theme) and no fixed angle yet.
 argument-hint: <theme, raw material, or nothing>
 allowed-tools: Read AskUserQuestion
+context: fork
+agent: story-editor
 ---
 
 # brainstorm
