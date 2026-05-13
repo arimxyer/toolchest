@@ -19,6 +19,46 @@ Produce 5–8 article angle candidates from vague input. This skill is **diverge
 - A path to a file with raw material (a transcript, a notes file)
 - Nothing at all — ask the user what raw material or theme they have
 
+## Step 0 — Voice-guide readiness
+
+This gate runs identically at the top of every content-studio consuming skill. A missing or placeholder-shaped voice guide stops work before any output is produced — the dependency is real on every entry path.
+
+### Existence check
+
+Verify a file exists at `${user_config.voice_guide_path}` (configured at plugin enable time, default `./brand-voice.md`). If it doesn't, stop with:
+
+```
+✗ Voice guide not found at <path>.
+
+Run `/content-studio:init` to author one. Init will discover existing voice-guide-shaped files in your project, or offer to author with you, infer from existing repo content, or scaffold a blank template.
+```
+
+### Placeholder-content check
+
+Read the file and check for the canonical sentinel set. If **any** of these substrings appears in the file, stop:
+
+- `Starter template — replace every section` (top-of-template banner)
+- `Lexcheck` (demo product in the scaffold's example pair)
+- `_Add 1–2 more` / `_Add 2–4` / `_Add your rules` (italic hint text in unfilled template sections)
+- `[inferred — verify]` (audit tags written by `/content-studio:init --infer` — present until the user resolves each)
+
+Stop with:
+
+```
+✗ Voice guide at <path> still contains placeholder markers:
+- <list the specific sentinels that matched, each on its own line>
+
+The guide hasn't been authored yet — every consuming skill in content-studio refuses to run against placeholder content because output won't reflect the actual brand. Run `/content-studio:init` to author or infer, or edit <path> directly to remove the markers.
+```
+
+### Non-blocking flag
+
+If the two checks above pass but the file still contains `_e.g. ` (italic-formatted `e.g.` placeholder hints from the scaffold's section examples), proceed to Step 1 but include this line in your first message back to the user:
+
+> Heads up: still saw `_e.g. ..._` placeholder hints in the voice guide. The gate is passing — these don't block — but you may want to clean them up.
+
+If all checks pass, proceed to Step 1.
+
 ## Step 1 — load voice
 
 Read the brand voice file at `${user_config.voice_guide_path}` (configured at plugin enable time). If the file does not exist there, tell the user to run `/content-studio:init` to write the starter template, then come back. Do not proceed without a voice guide — every angle this skill produces has to be grounded in the brand.
