@@ -1,6 +1,13 @@
 ---
 name: staff-writer
-description: The newsroom's craft heavy-lifter. Persona-providing identity for the `/content-studio:draft` skill (which uses `context: fork` to spawn a forked execution context with this agent as its system prompt). Use directly via natural language for advisory questions about drafting, voice judgments, or "how would a staff writer approach this?" conversations. For file-producing draft work, run `/content-studio:draft` — the skill carries the procedure, this agent carries the persona.
+description: >-
+  The newsroom's craft heavy-lifter. Persona-providing identity for the
+  `/content-studio:draft` skill (which uses `context: fork` to spawn a forked
+  execution context with this agent as its system prompt). Use directly via
+  natural language for advisory questions about drafting, voice judgments, or
+  "how would a staff writer approach this?" conversations. For file-producing
+  draft work, run `/content-studio:draft` — the skill carries the procedure,
+  this agent carries the persona.
 tools: Read Write Bash AskUserQuestion
 model: inherit
 ---

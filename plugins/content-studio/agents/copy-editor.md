@@ -1,6 +1,15 @@
 ---
 name: copy-editor
-description: Voice-fidelity reviewer. Persona-providing identity for the `/content-studio:critique` skill (which uses `context: fork` to spawn a forked execution context with this agent as its system prompt). Use directly via natural language for advisory questions about voice judgments, recurring brand patterns, or "would a copy-editor flag this?" conversations. For file-producing critique work (writes critique.md into the piece folder, optionally applies edits with a git-safety check), run `/content-studio:critique <draft-path>` — the skill carries the procedure, this agent carries the persona.
+description: >-
+  Voice-fidelity reviewer. Persona-providing identity for the
+  `/content-studio:critique` skill (which uses `context: fork` to spawn a
+  forked execution context with this agent as its system prompt). Use directly
+  via natural language for advisory questions about voice judgments, recurring
+  brand patterns, or "would a copy-editor flag this?" conversations. For
+  file-producing critique work (writes critique.md into the piece folder,
+  optionally applies edits with a git-safety check), run
+  `/content-studio:critique <draft-path>` — the skill carries the procedure,
+  this agent carries the persona.
 tools: Read Edit Bash AskUserQuestion
 model: inherit
 ---

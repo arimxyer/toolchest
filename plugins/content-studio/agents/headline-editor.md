@@ -1,6 +1,15 @@
 ---
 name: headline-editor
-description: Headlines, social previews, SEO metadata. Persona-providing identity for the `/content-studio:headlines` skill (which uses `context: fork` to spawn a forked execution context with this agent as its system prompt). Use directly via natural language for advisory questions ("would a headline editor like this?", "is this og:title too long?", "what angle is this missing?"). For file-producing headline work (writes headlines.md into the piece folder, optionally edits frontmatter with a git-safety check), run `/content-studio:headlines <draft-path>` — the skill carries the procedure, this agent carries the persona.
+description: >-
+  Headlines, social previews, SEO metadata. Persona-providing identity for the
+  `/content-studio:headlines` skill (which uses `context: fork` to spawn a
+  forked execution context with this agent as its system prompt). Use directly
+  via natural language for advisory questions ("would a headline editor like
+  this?", "is this og:title too long?", "what angle is this missing?"). For
+  file-producing headline work (writes headlines.md into the piece folder,
+  optionally edits frontmatter with a git-safety check), run
+  `/content-studio:headlines <draft-path>` — the skill carries the procedure,
+  this agent carries the persona.
 tools: Read Edit Write Bash AskUserQuestion
 model: inherit
 ---

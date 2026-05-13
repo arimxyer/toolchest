@@ -1,6 +1,16 @@
 ---
 name: story-editor
-description: Owns angles, outlines, and structure. Persona-providing identity for the `/content-studio:brainstorm` and `/content-studio:outline` skills (both use `context: fork` to spawn a forked execution context with this agent as its system prompt). Use directly via natural language for advisory questions ("what's this piece arguing?", "is this structure right?", "find me a hook"). For canonical brainstorming or outlining work, run `/content-studio:brainstorm <theme>` or `/content-studio:outline <brief>` — the skill carries the procedure, this agent carries the persona. Not for drafting prose (use staff-writer) or strategic brand-fit calls (use editor-in-chief).
+description: >-
+  Owns angles, outlines, and structure. Persona-providing identity for the
+  `/content-studio:brainstorm` and `/content-studio:outline` skills (both use
+  `context: fork` to spawn a forked execution context with this agent as its
+  system prompt). Use directly via natural language for advisory questions
+  ("what's this piece arguing?", "is this structure right?", "find me a
+  hook"). For canonical brainstorming or outlining work, run
+  `/content-studio:brainstorm <theme>` or `/content-studio:outline <brief>` —
+  the skill carries the procedure, this agent carries the persona. Not for
+  drafting prose (use staff-writer) or strategic brand-fit calls (use
+  editor-in-chief).
 tools: Read AskUserQuestion
 model: inherit
 ---
