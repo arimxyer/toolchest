@@ -9,7 +9,7 @@ Two cooperating layers:
 
 ## What it does (skills)
 
-- **`/content-studio:init`** — writes a starter `brand-voice.md` (with sections for voice, tone, vocabulary, examples, audience) at the path configured in plugin settings. The voice guide is intentionally placeholder-heavy; the user fills in the brand specifics. Other plugin settings (output directory, default format, etc.) are configured separately via `userConfig` at plugin enable time — see [Settings](#settings) below.
+- **`/content-studio:init`** — onboarding flow for the brand voice guide. Discovers existing voice-guide-shaped files in your project, or offers to author one with you (short interview), infer one from existing repo content (with audit tags), or scaffold a blank starter template. The voice guide is the hard prerequisite for every other skill — the runtime gate refuses to run consuming skills against a missing or placeholder-shaped guide. Other plugin settings (output directory, default format, etc.) are configured separately via `userConfig` at plugin enable time — see [Settings](#settings) below.
 - **`/content-studio:brainstorm`** — divergent ideation. Takes a theme, raw material (interview notes, a product update, a transcript), or nothing at all, and produces 5–8 distinct angle candidates with hook sentences and a critic's note on which are strongest. Hand the chosen angle to `/outline`.
 - **`/content-studio:outline`** — turns a brief into a structured outline (hook, body sections with key points, CTA, headline candidates). Hand it to `/draft` or take it elsewhere.
 - **`/content-studio:draft`** — drafts a full article from a brief or outline. Writes the file to the configured output directory (default `./drafts`) in the chosen format. Refuses briefs that land in the voice guide's "Things we don't write about" list.
@@ -97,7 +97,7 @@ When you enable the plugin, Claude Code prompts you for five values (declared in
 
 | Field | Required? | Default | Purpose |
 |-------|-----------|---------|---------|
-| `voice_guide_path` | required | `./brand-voice.md` | Path to the brand voice markdown file. |
+| `voice_guide_path` | required | `./brand-voice.md` | Path to the brand voice guide. Run `/content-studio:init` after install to discover, author, infer, or scaffold one. |
 | `output_dir` | optional | `./drafts` | Where `/draft` writes generated articles. |
 | `default_format` | optional | `markdown` | One of: `markdown`, `mdx`, `frontmatter`, `html`. Overridable per invocation. |
 | `slug_prefix` | optional | _empty_ | Prepended to the `slug:` field inside the frontmatter (e.g. `posts/` or `blog/`). Does **not** affect the working-tree path under `output_dir` — the piece folder is always `<output_dir>/<slug>/` (flat). |
@@ -105,15 +105,26 @@ When you enable the plugin, Claude Code prompts you for five values (declared in
 
 Values land under `pluginConfigs.content-studio.options` in the settings file matching your install scope (user / project / local). To change them later, run `/plugin` and reconfigure, or edit the values directly in `settings.json`.
 
-**2. Write the brand voice template:**
+**2. Establish the brand voice guide:**
 
 ```text
 /content-studio:init
 ```
 
-This writes a starter `brand-voice.md` at the path you configured in step 1 (default `./brand-voice.md`). It refuses to overwrite if a file already exists at that path — your voice guide is safe.
+This is the onboarding flow. Init will:
 
-Then edit `brand-voice.md`. The template's placeholders are doing the work of teaching what to write — replace every section. The highest-leverage section is **Examples** (on-voice / off-voice pairs); a couple of good pairs raise output quality more than any other input.
+1. **Discover** any voice-guide-shaped files already in your project (`brand-voice*.md`, `VOICE.md`, `style-guide*.md`, etc.) and offer to point `voice_guide_path` at one of them, copy one to the target path, or ignore them and continue.
+2. **Ask** how you want to author from here:
+   - **Author with me** — short interview through the highest-leverage template sections (brand, audience, voice adjectives, examples, off-limits topics).
+   - **Infer from existing repo content** — sample existing markdown (blog posts, README) and draft a guide where every claim is tagged `[inferred — verify]` for you to audit before it goes into use.
+   - **Blank template** — scaffold the starter template; fill it in offline at your own pace.
+3. **Refuse to overwrite** an already-authored file at the target path. Move or delete the existing file first if you want to re-author from scratch.
+
+Power-user flags: `--author`, `--infer`, `--blank` skip the interactive prompt and go straight to a branch. `--no-discover` skips the discovery step. A bare path as the argument overrides the target path for one run (doesn't change the configured `voice_guide_path`).
+
+The runtime gate in every consuming skill (`/draft`, `/outline`, `/critique`, `/headlines`, `/brainstorm`) **refuses to run against a missing or placeholder-shaped guide** — so getting past `/init` is the prerequisite for using the rest of the plugin. The gate blocks on canonical sentinel strings in the unedited template (the "Starter template" banner, the `Lexcheck` demo example, italic hints for unfilled sections like `_Add 1–2 more`) and on any `[inferred — verify]` tags from the infer branch, which forces an audit before the inferred draft goes into use.
+
+The highest-leverage section in the resulting guide is **Examples** (on-voice / off-voice pairs); a couple of good pairs raise output quality more than any other input.
 
 ## Settings
 
@@ -195,7 +206,7 @@ Three things make the convention earn its weight:
 
 ## What this plugin does not do
 
-- It does not infer a brand voice from existing site content. The voice guide is human-written.
+- The voice guide is human-authored at its core. `/content-studio:init --infer` can sample existing repo content to seed a first draft, but every inferred claim is tagged `[inferred — verify]` and the runtime gate refuses to run consuming skills until the user audits each tag.
 - It does not publish, schedule, or commit. The user owns those steps.
 - It does not do keyword research, competitor analysis, or A/B test headlines.
 - It does not generate images or alt-text — image slots get `<!-- TODO: image -->`.
