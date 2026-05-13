@@ -1,7 +1,7 @@
 {
   "name": "content-studio",
   "description": "A brand-voice-driven writer's room — six user-invoked skills (init, brainstorm, outline, draft, critique, headlines) plus six specialist agents (managing-editor, editor-in-chief, story-editor, staff-writer, copy-editor, headline-editor). Each piece gets its own folder under the configured output directory (draft.md, outline.md, critique.md, headlines.md), keeping all artifacts for one article in one place. Outputs in markdown, MDX, frontmatter+body, or HTML.",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "author": {
     "name": "arimxyer",
     "url": "https://github.com/arimxyer"
@@ -44,7 +44,7 @@
     "slug_prefix": {
       "type": "string",
       "title": "Slug prefix (optional)",
-      "description": "Optional. Prepended to generated slugs in frontmatter (e.g. 'posts/' or 'blog/'). Leave blank if not needed."
+      "description": "Optional. Prepended to the `slug:` field inside the frontmatter only (e.g. 'posts/' or 'blog/'). Does NOT affect the working-tree file path — piece folders stay flat under output_dir. Leave blank if not needed."
     },
     "author": {
       "type": "string",

@@ -100,7 +100,7 @@ When you enable the plugin, Claude Code prompts you for five values (declared in
 | `voice_guide_path` | required | `./brand-voice.md` | Path to the brand voice markdown file. |
 | `output_dir` | optional | `./drafts` | Where `/draft` writes generated articles. |
 | `default_format` | optional | `markdown` | One of: `markdown`, `mdx`, `frontmatter`, `html`. Overridable per invocation. |
-| `slug_prefix` | optional | _empty_ | Prepended to slugs in frontmatter (e.g. `posts/` or `blog/`). |
+| `slug_prefix` | optional | _empty_ | Prepended to the `slug:` field inside the frontmatter (e.g. `posts/` or `blog/`). Does **not** affect the working-tree path under `output_dir` — the piece folder is always `<output_dir>/<slug>/` (flat). |
 | `author` | optional | _empty_ | Written into frontmatter for `frontmatter` / `mdx` formats. |
 
 Values land under `pluginConfigs.content-studio.options` in the settings file matching your install scope (user / project / local). To change them later, run `/plugin` and reconfigure, or edit the values directly in `settings.json`.

@@ -102,9 +102,11 @@ Each piece lives in its own folder under `${user_config.output_dir}`. The draft 
 - The draft file inside it: `draft<ext>` where `<ext>` matches the format (`.md`, `.mdx`, `.html`).
 - Final draft path: `${user_config.output_dir}/<slug>/draft<ext>`
 
+**Important:** `<slug>` here is the **bare** slug (e.g. `the-song-you-played-most-wasnt-on-any-playlist`). Do **not** prepend `${user_config.slug_prefix}` to the file path. The slug prefix is a frontmatter-only concern — it goes into the `slug:` field inside the YAML block so URLs match the publishing destination, but the working-tree path under `${user_config.output_dir}` stays flat. Example: with `slug_prefix: blog/`, the file goes to `./drafts/the-song-.../draft.md` (flat) while the frontmatter slug reads `blog/the-song-...`.
+
 Steps:
 
-1. `mkdir -p ${user_config.output_dir}/<slug>` — create the piece directory.
+1. `mkdir -p ${user_config.output_dir}/<slug>` — create the piece directory. `<slug>` is bare; no prefix.
 2. If the piece directory already contained a `draft<ext>`, **increment the slug, not the file**. Create `<slug>-2/draft<ext>` instead. Each piece stays in its own folder; we don't collapse multiple drafts into one dir.
 3. Write the draft via the `Write` tool to the final path.
 4. **If the brief contained an inline outline** (the user pasted one in, e.g. from `/content-studio:outline`), also save the outline alongside the draft as `${user_config.output_dir}/<slug>/outline.md`. This makes the piece self-documenting — `/critique` and `/headlines` can reference the outline later. If the user only gave a topic or brief (no outline), skip this; don't fabricate an outline file.
