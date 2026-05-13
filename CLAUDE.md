@@ -49,6 +49,12 @@ Load-bearing details:
 - Use `/animation-library:scaffold-library <slug>` to add a library — don't hand-copy the template.
 - Adding a library also requires updating `pick-library/SKILL.md`'s description trigger list, its Library-index table, and `COMPARISON.md`.
 
+## content-studio: `slug_prefix` is frontmatter-only
+
+`userConfig.slug_prefix` (in `plugins/content-studio/.claude-plugin/plugin.json`) prepends to the `slug:` field inside YAML frontmatter only. It does **not** affect the working-tree file path — piece folders stay flat under `output_dir` (e.g. `slug_prefix: blog/` produces `./drafts/<slug>/draft.md` on disk and `slug: blog/<slug>` in frontmatter).
+
+Don't "fix" this to apply the prefix to the file path too. The split is intentional: `output_dir` answers "where do I author?" and `slug_prefix` answers "what URL prefix does the publishing system want?" — collapsing them into one knob is what caused the original leak that v3.2.1 fixed. If a user wants nested workspace folders, they stack it into `output_dir` instead. The behavior is documented in three places (`plugin.json`, the plugin's `README.md`, and `skills/draft/SKILL.md`); keep them aligned if you change any one.
+
 ## design-md ships executable code
 
 `plugins/design-md/skills/design-md/scripts/design-to-theme.py` is the only executable in the tree. If you touch it, keep it stdlib-only — there's no Python toolchain wired up.
