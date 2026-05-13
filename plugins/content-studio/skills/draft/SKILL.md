@@ -32,6 +32,8 @@ Settings come from `userConfig` (configured at plugin enable time). The values a
 
 Read the brand voice file at `${user_config.voice_guide_path}`. If the file doesn't exist there, tell the user to run `/content-studio:init` to write the starter template, then come back.
 
+If the voice guide still contains starter-template markers — the "Starter template — replace every section" banner at the top, italicized placeholder hints (`_e.g. ..._`, `_Add 1–2 more …_`, `_Add your rules …_`), or the demo "Lexcheck" example pair the scaffold ships with — warn the user that the guide hasn't been customized and the draft will only be as on-voice as the template allows. Continue if the user wants you to, but be honest in the output about which sections you couldn't ground in real brand specifics.
+
 The high-value sections for drafting are:
 
 - **Voice** and its adjective nuance — every paragraph has to defensibly hit these.
