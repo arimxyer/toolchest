@@ -97,7 +97,7 @@ When you enable the plugin, Claude Code prompts you for five values (declared in
 
 | Field | Required? | Default | Purpose |
 |-------|-----------|---------|---------|
-| `voice_guide_path` | required | `./brand-voice.md` | Path to the brand voice guide. Run `/content-studio:init` after install to discover, author, infer, or scaffold one. |
+| `voice_guide_path` | optional | `./brand-voice.md` | Path to the brand voice guide. Leave the install prompt empty to accept the default. Run `/content-studio:init` after install to discover, author, infer, or scaffold one. The runtime gate in every consuming skill enforces that the file exists and is authored before any drafting/critiquing runs. |
 | `output_dir` | optional | `./drafts` | Where `/draft` writes generated articles. |
 | `default_format` | optional | `markdown` | One of: `markdown`, `mdx`, `frontmatter`, `html`. Overridable per invocation. |
 | `slug_prefix` | optional | _empty_ | Prepended to the `slug:` field inside the frontmatter (e.g. `posts/` or `blog/`). Does **not** affect the working-tree path under `output_dir` — the piece folder is always `<output_dir>/<slug>/` (flat). |

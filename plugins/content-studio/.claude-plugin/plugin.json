@@ -1,7 +1,7 @@
 {
   "name": "content-studio",
   "description": "A brand-voice-driven writer's room — six user-invoked skills (init, brainstorm, outline, draft, critique, headlines) plus six specialist agents (managing-editor, editor-in-chief, story-editor, staff-writer, copy-editor, headline-editor). Each piece gets its own folder under the configured output directory (draft.md, outline.md, critique.md, headlines.md), keeping all artifacts for one article in one place. Outputs in markdown, MDX, frontmatter+body, or HTML.",
-  "version": "3.3.0",
+  "version": "3.3.1",
   "author": {
     "name": "arimxyer",
     "url": "https://github.com/arimxyer"
@@ -25,9 +25,8 @@
     "voice_guide_path": {
       "type": "file",
       "title": "Brand voice guide path",
-      "description": "Path where your brand voice guide lives. Press Enter to accept the default — run /content-studio:init after install to discover, author, infer, or scaffold a guide at this path.",
-      "default": "./brand-voice.md",
-      "required": true
+      "description": "Path where your brand voice guide lives. Leave empty to use the default (./brand-voice.md) — run /content-studio:init after install to discover, author, infer, or scaffold a guide at this path. The runtime gate in every consuming skill enforces the dependency, so this field is optional at install time.",
+      "default": "./brand-voice.md"
     },
     "output_dir": {
       "type": "directory",
