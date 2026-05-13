@@ -22,7 +22,7 @@ Six specialist agents, each with isolated context and a distinct role. A copy ed
 
 | Agent | Role |
 |-------|------|
-| `managing-editor` | The front door. Listens to broad or multi-step requests, decides which specialists are needed, and returns a routing plan you (or Main Claude) execute. Doesn't draft, critique, or argue brand — just routes. |
+| `managing-editor` | The front door. Listens to broad or multi-step requests, decides which specialists are needed, either delegates directly (in agent-mode) or returns a routing plan. Doesn't draft, critique, or argue brand — just routes. |
 | `editor-in-chief` | Strategic vision and brand-voice gatekeeper. Can — and will — kill pieces that don't fit the publication. Use for "should we write about X?" and "does this fit our voice at a strategic level?" |
 | `story-editor` | Owns angles, outlines, structure. "What is this piece arguing?" is their starting question. Use for angle development, outlining, and mid-draft restructuring. |
 | `staff-writer` | The craft heavy-lifter. Turns outlines and briefs into prose in the brand voice. Leaves honest TODOs rather than fabricating slots. |
@@ -51,13 +51,21 @@ Three ways in:
 > Have the editor-in-chief tell me if "AI for paralegals" fits our voice
 ```
 
-The `managing-editor` agent returns a structured routing plan rather than executing the chain itself. Empirically (validated 2026-05-12), Claude Code's subagent registry does not expose plugin-shipped agents (the content-studio specialists) as Agent-spawnable subagent types — even when managing-editor is the main session via `claude --agent content-studio:managing-editor`. So in every mode tested, managing-editor's job is to plan and hand off; the user (or Main Claude) executes the plan by running the specialist's slash command, or by invoking the specialist by natural-language reference.
+In a normal Claude Code session, the `managing-editor` agent can think about routing but cannot directly spawn other specialist subagents (Claude Code currently allows only one level of subagent depth). If you invoke it here, it'll return a routing plan that Main Claude can execute, rather than driving the chain itself.
+
+**Agent-mode session — managing editor drives the chain.**
 
 ```bash
 claude --agent content-studio:managing-editor
 ```
 
-still works as a way to talk to the managing-editor persona directly — it just produces routing plans, not direct orchestration.
+In this mode the managing editor runs as the main session and *can* directly spawn the specialists. Walking into the newsroom and talking to the editor first, who pulls in the right people behind the scenes:
+
+```text
+> I want to put out a piece about contract automation this week
+# managing-editor pulls in editor-in-chief for brand fit, then story-editor for angles,
+# checks in with you, then staff-writer for the draft, then copy-editor, then headline-editor.
+```
 
 ### Skills and agents — how they're wired
 
