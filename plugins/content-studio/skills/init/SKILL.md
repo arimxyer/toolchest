@@ -21,7 +21,7 @@ There are four authoring paths the user can land on, depending on whether a usab
 
 `$ARGUMENTS` may contain:
 
-- A bare path (any token that doesn't start with `--`) → one-off override of the target path for this run. Doesn't update `voice_guide_path` config; for a persistent change, the user runs `/plugin`.
+- A bare path (any token that doesn't start with `--`) → one-off override of the target path for this run. Doesn't update `voice_guide_path` config; for a persistent change, edit `pluginConfigs.content-studio@toolchest.options.voice_guide_path` in this project's `.claude/settings.json` (or re-run `claude plugin install content-studio@toolchest --scope project` to be re-prompted).
 - `--author` / `--infer` / `--blank` → skip the interactive prompt at Step 4 and go straight to that branch. At most one of these may be passed.
 - `--no-discover` → skip Step 2 (discovery). Useful when the user knows there's nothing existing to find or wants to author/scaffold directly.
 
@@ -63,13 +63,13 @@ Three outcomes:
 
   > Found voice-guide-shaped file(s) outside the configured path. What do you want to do?
   >
-  > - **Point `voice_guide_path` at one of these** — I'll tell you which `/plugin` command to run to update the config. (This skill does not edit `settings.json` directly.)
+  > - **Point `voice_guide_path` at one of these** — I'll tell you how to update the config (hand-edit `.claude/settings.json` or re-run `claude plugin install`). This skill does not edit `settings.json` directly.
   > - **Copy one to `<target>`** — I'll copy a chosen file to `<target>` and continue.
   > - **Ignore — keep building at `<target>`** — continue to Step 3 as if nothing was found.
 
   When multiple files are discovered, list them in the question's description so the user can pick by index. Don't try to merge multiple discovered files into one — that's over-clever.
 
-  - If the user picks **point**, instruct them to run `/plugin` to update `voice_guide_path` to the discovered path, then stop the init flow. Their next consuming-skill invocation will read from the new path.
+  - If the user picks **point**, instruct them to update `voice_guide_path` to the discovered path — either by editing `pluginConfigs.content-studio@toolchest.options.voice_guide_path` in this project's `.claude/settings.json` directly, or by re-running `claude plugin install content-studio@toolchest --scope project` to be re-prompted. Then stop the init flow. Their next consuming-skill invocation will read from the new path.
   - If the user picks **copy**, copy the chosen file to `<target>` (Read + Write, or `cp`). Then check `<target>` against the sentinel set in Step 3. If it's authored, stop with success; if it still contains sentinels (unusual for a real guide, possible if the discovered file is a partly-filled scaffold), note that and continue to Step 4 with `<target>` marked as "exists but unedited."
   - If the user picks **ignore**, continue to Step 3.
 
@@ -249,15 +249,14 @@ Next:
   2. Add 2–4 on-voice / off-voice example pairs. These do more for output quality than any other section.
   3. The runtime gate will block /content-studio:draft and the other consuming skills until the placeholder sentinels are gone.
 
-Settings live in your settings.json under `pluginConfigs.content-studio.options`.
-Run `/plugin` to reconfigure voice_guide_path, output_dir, default_format, slug_prefix, or author.
+Settings live in this project's `.claude/settings.json` under `pluginConfigs.content-studio@toolchest.options`. Hand-edit the file and run `/reload-plugins` to pick up changes. To re-run the install prompt for values, use `claude plugin install content-studio@toolchest --scope project`.
 ```
 
-Do not print user_config values in the status report — they may not resolve to literal values in all modes (e.g. `--plugin-dir` testing), and the user already configured them at enable time. The pointer to `/plugin` is enough for the user who needs to inspect or change settings.
+Do not print user_config values in the status report — they may not resolve to literal values in all modes (e.g. `--plugin-dir` testing), and the user already configured them at install time. The pointer to `.claude/settings.json` is enough for the user who needs to inspect or change settings.
 
 ## What this skill does not do
 
-- It does not write a settings file. All settings come from the plugin's `userConfig` block (set at enable time, stored under `pluginConfigs` in your settings.json). If the user picks "point `voice_guide_path` at a discovered file" in Step 2, instruct them to run `/plugin` to update the config — do not edit `settings.json` directly.
+- It does not write a settings file. All settings come from the plugin's `userConfig` block (set at install time, stored under `pluginConfigs` in this project's `.claude/settings.json`). If the user picks "point `voice_guide_path` at a discovered file" in Step 2, tell them how to update the config (hand-edit `.claude/settings.json` or re-run `claude plugin install … --scope project`) — the skill itself does not edit settings files.
 - It does not commit the new file. Leave that to the user.
 - It does not edit `.gitignore`. The voice guide is content meant to be committed and shared with the team; leave it tracked.
 - The infer branch does not promise correctness — it produces a draft with audit tags, and the user is responsible for verifying each claim. The runtime gate enforces this by blocking until the tags are gone.

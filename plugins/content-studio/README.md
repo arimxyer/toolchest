@@ -89,11 +89,19 @@ Per-project context that the plugin doesn't manage explicitly (Claude Code's aut
 
 ## First-time setup
 
-Two steps:
+Two steps. Both expect you're inside the project where you'll author content — content-studio is designed around one project / one brand. The path options (`voice_guide_path`, `output_dir`) resolve relative to the current working tree, so installing at **project scope** keeps each project's config self-contained and prevents bleed-over when you work across multiple repos.
 
-**1. Configure plugin settings (one-time, at enable time).**
+**1. Install at project scope and configure.**
 
-When you enable the plugin, Claude Code prompts you for five values (declared in the plugin's `userConfig`):
+Run `/plugin`, go to **Discover**, find `content-studio`, press **Enter**, and pick **Project scope**. Claude Code writes the enable flag and your configured option values to this project's `.claude/settings.json`. CLI equivalent:
+
+```text
+claude plugin install content-studio@toolchest --scope project
+```
+
+(The in-session `/plugin install …` slash command defaults to user scope and does not currently accept `--scope`. Use the TUI or the `claude plugin install` CLI form to pick project scope.)
+
+After install (or to reconfigure later), Claude Code prompts you for five values (declared in the plugin's `userConfig`):
 
 | Field | Required? | Default | Purpose |
 |-------|-----------|---------|---------|
@@ -103,7 +111,7 @@ When you enable the plugin, Claude Code prompts you for five values (declared in
 | `slug_prefix` | optional | _empty_ | Prepended to the `slug:` field inside the frontmatter (e.g. `posts/` or `blog/`). Does **not** affect the working-tree path under `output_dir` — the piece folder is always `<output_dir>/<slug>/` (flat). |
 | `author` | optional | _empty_ | Written into frontmatter for `frontmatter` / `mdx` formats. |
 
-Values land under `pluginConfigs.content-studio.options` in the settings file matching your install scope (user / project / local). To change them later, run `/plugin` and reconfigure, or edit the values directly in `settings.json`.
+Values land under `pluginConfigs.content-studio@toolchest.options` in this project's `.claude/settings.json`. You can hand-edit them there at any time — `/reload-plugins` picks up changes without restarting Claude Code.
 
 **2. Establish the brand voice guide:**
 
@@ -130,11 +138,33 @@ The highest-leverage section in the resulting guide is **Examples** (on-voice / 
 
 All settings are configured via the plugin's `userConfig` (see [First-time setup](#first-time-setup) above). The fields are referenced from skills and agents using `${user_config.<field>}` substitution — for example, `/content-studio:draft` writes files to `${user_config.output_dir}`.
 
-To inspect or change current values:
-- Run `/plugin` to open the plugin manager, find `content-studio`, and reconfigure.
-- Or edit `settings.json` directly under `pluginConfigs.content-studio.options`.
+Settings live in this project's `.claude/settings.json` under `pluginConfigs.content-studio@toolchest.options`. To change them later:
 
-> **Migrating from v1.x?** Earlier versions stored settings in `.claude/content-studio.local.md`. That file is no longer used — settings now live in your `settings.json` under `pluginConfigs`. After enabling v2.x, you can delete the old `.claude/content-studio.local.md` file.
+- **Primary path:** hand-edit `.claude/settings.json` and run `/reload-plugins`. Picks up changes without restarting Claude Code.
+- **Secondary path:** re-run the install flow to be re-prompted for values. CLI: `claude plugin install content-studio@toolchest --scope project`. TUI: `/plugin` → **Discover** → press **Enter** on `content-studio` → pick **Project scope**.
+
+Example project `.claude/settings.json`:
+
+```json
+{
+  "enabledPlugins": {
+    "content-studio@toolchest": true
+  },
+  "pluginConfigs": {
+    "content-studio@toolchest": {
+      "options": {
+        "voice_guide_path": "./brand-voice.md",
+        "output_dir": "./drafts",
+        "default_format": "frontmatter",
+        "slug_prefix": "blog/",
+        "author": "Your Name"
+      }
+    }
+  }
+}
+```
+
+> **Migrating from v1.x?** Earlier versions stored settings in `.claude/content-studio.local.md`. That file is no longer used — settings now live in this project's `.claude/settings.json` under `pluginConfigs`. After enabling v2.x, you can delete the old `.claude/content-studio.local.md` file.
 
 ## Output formats
 
