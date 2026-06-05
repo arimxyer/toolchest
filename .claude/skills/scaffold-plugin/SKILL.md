@@ -26,6 +26,10 @@ Gather these from the user in a single `AskUserQuestion` call (don't echo back t
 
 Then propose the full file plan in chat before writing — list every file you'll create and every file you'll modify with a one-line summary. Wait for approval.
 
+## Plugin shape: skills vs LSP
+
+This template scaffolds a **skill-based** plugin. For an **LSP-server** plugin (like `ty-lsp`), deviate: skip `skills/<skill>/SKILL.md` and the first-skill questions entirely, and instead create `.lsp.json` at the plugin root (server-name → `{command, args, extensionToLanguage}`); the root README table's Skill column gets `—`. The three-place sync and metadata conventions below still apply unchanged.
+
 ## File plan
 
 Create:

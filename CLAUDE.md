@@ -10,7 +10,7 @@ A Claude Code plugin marketplace published as `arimxyer/toolchest`. Content/docs
 
 - `.claude-plugin/marketplace.json` — marketplace manifest, the source of truth for which plugins are published
 - `README.md` — public-facing plugin table
-- `plugins/<name>/` — one directory per plugin: `.claude-plugin/plugin.json`, `README.md`, `skills/<skill-name>/SKILL.md`
+- `plugins/<name>/` — one directory per plugin: `.claude-plugin/plugin.json`, `README.md`, and usually `skills/<skill-name>/SKILL.md`. Not every plugin ships skills — `ty-lsp` ships an `.lsp.json` (LSP server config) instead, has no slash commands, and its root-README Skill column is `—`.
 - `.claude/skills/` — repo-maintenance skills (`/scaffold-plugin`, `/check-marketplace-sync`). These are NOT published; they only run inside this repo.
 
 **Published skills live at `plugins/<plugin>/skills/<skill>/SKILL.md` — not `.claude/skills/`.**
