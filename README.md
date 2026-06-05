@@ -30,6 +30,7 @@ npx skills add arimxyer/toolchest
 | ↳ | `/animation-library:refresh-library` | Re-verify a dossier against npm's latest; dispatched automatically by `pick-library` on version drift |
 | `sudo-askpass` | `/sudo-askpass:sudo-askpass` | Help agents run sudo commands from non-interactive Linux sessions by detecting, configuring, and safely using askpass helpers |
 | `design-md` | `/design-md:design-md` | Author and convert DESIGN.md design systems — 8 section references, Tailwind v4/v3 conversion guide, worked examples, and a Python `theme.css` generator |
+| `ty-lsp` | — | Astral's ty language server for Python — real-time type-checking diagnostics via LSP (no slash command; starts automatically for `.py` files) |
 
 ## License
 

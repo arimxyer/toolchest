@@ -1,0 +1,10 @@
+{
+  "name": "ty-lsp",
+  "description": "Astral's ty language server for Python — real-time type-checking diagnostics and code intelligence via LSP.",
+  "version": "1.0.0",
+  "author": {
+    "name": "arimxyer"
+  },
+  "repository": "https://github.com/arimxyer/toolchest",
+  "license": "Apache-2.0"
+}
