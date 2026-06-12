@@ -26,9 +26,12 @@ Gather these from the user in a single `AskUserQuestion` call (don't echo back t
 
 Then propose the full file plan in chat before writing — list every file you'll create and every file you'll modify with a one-line summary. Wait for approval.
 
-## Plugin shape: skills vs LSP
+## Plugin shape: skills vs LSP vs agents
 
-This template scaffolds a **skill-based** plugin. For an **LSP-server** plugin (like `ty-lsp`), deviate: skip `skills/<skill>/SKILL.md` and the first-skill questions entirely, and instead create `.lsp.json` at the plugin root (server-name → `{command, args, extensionToLanguage}`); the root README table's Skill column gets `—`. The three-place sync and metadata conventions below still apply unchanged.
+This template scaffolds a **skill-based** plugin. Two other shapes exist; the three-place sync and metadata conventions below apply unchanged to all of them.
+
+- **LSP-server** plugin (like `ty-lsp`): skip `skills/<skill>/SKILL.md` and the first-skill questions entirely, and instead create `.lsp.json` at the plugin root (server-name → `{command, args, extensionToLanguage}`); the root README table's Skill column gets `—`.
+- **Agent-bundling** plugin (like `writers-room`): add `agents/<agent>.md` files at the plugin root, one per agent — frontmatter needs `name` and `description`; `tools` is optional (note: agents use `tools`, skills use `allowed-tools`). Agents are auto-discovered (no `plugin.json` field) and register as `<plugin>:<agent>`. **If one agent spawns siblings, its `Agent(...)` allowlist must use the namespaced form** — `Agent(<plugin>:<agent>, …)`; bare names break delegation silently. Adding or renaming an agent means updating every sibling allowlist that names it. A skill that needs the user (interview, confirmation gates) stays main-thread — subagents have no `AskUserQuestion`.
 
 ## File plan
 
@@ -99,6 +102,8 @@ description: <one-line skill description>
 ```
 
 Leave optional frontmatter (`argument-hint`, `allowed-tools`, `metadata`) off the starter SKILL.md. Frontmatter style varies across this repo's plugins; the user can add fields when the skill's shape is clear.
+
+If a skill ships supporting files (templates, examples), put them in `skills/<skill>/references/` next to that skill — not at the plugin root (see `writers-room`'s `MEMO.template.md` / `BRAND.template.md`).
 
 ### `.claude-plugin/marketplace.json`
 
