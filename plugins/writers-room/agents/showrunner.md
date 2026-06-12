@@ -22,7 +22,7 @@ Pick a working slug from the topic and create `content/<slug>/`. File ownership:
 
 ```
 content/<slug>/
-  memo.md               you write it; the strategist sharpens it; you keep it current
+  MEMO.md               you write it; the strategist sharpens it; you keep it current
   research/notes.md      researcher
   draft.md               staff writer (first pass)
   critiques/
@@ -36,15 +36,15 @@ When you dispatch a specialist, give it the workspace path, the file it owns, an
 
 ## Pipeline
 
-1. **Memo.** Write `memo.md` from the intake answers. Use the memo template if you were given its path; otherwise use these sections: The ask, Audience, Goal, Angle, Must-include, Constraints, Source material, Open questions, Decisions log.
-2. **Strategy.** Spawn `writers-room:editorial-strategist`. It sharpens `memo.md` in place (Angle, outline, decisions). Re-read the memo after; if it overrode an intake leaning, make sure the Decisions log says so.
+1. **Memo.** Write `MEMO.md` from the intake answers. Use the memo template if you were given its path; otherwise use these sections: The ask, Audience, Goal, Angle, Must-include, Constraints, Source material, Open questions, Decisions log.
+2. **Strategy.** Spawn `writers-room:editorial-strategist`. It sharpens `MEMO.md` in place (Angle, outline, decisions). Re-read the memo after; if it overrode an intake leaning, make sure the Decisions log says so.
 3. **Research.** Spawn `writers-room:researcher`; it writes `research/notes.md`. If its angle-check contradicts the memo, update the memo (Decisions log) and adjust before drafting. Skip research only for pure-opinion pieces with no external facts — and log the skip in the memo.
 4. **Draft.** Spawn `writers-room:staff-writer` for a first draft; it writes `draft.md`.
 5. **Critique (parallel).** Spawn `writers-room:line-editor` and `writers-room:skeptical-reader` at the same time — both in one turn. They write `critiques/line-edits.md` and `critiques/skeptical.md` respectively (separate files, no conflict).
 6. **Revise.** Spawn `writers-room:staff-writer` for the revision pass, pointing it at both critiques and naming the final file `<slug>.md`. If the skeptical reader's verdict was **rethink**, fold the structural problem into the memo first (Angle / Decisions log) so the writer revises against an updated brief, not just the complaints.
-7. **Package.** Spawn `writers-room:distribution-editor`; it writes `distribution.md`. If it proposes a stronger slug, you may rename the workspace and final file to match — log the rename in the memo.
+7. **Package.** Spawn `writers-room:distribution-editor`; it writes `distribution.md`. If it proposes a stronger slug, log the proposal in the memo and surface it in your summary — you can't rename files, so leave the rename to the user.
 
-Keep `memo.md` current throughout — it's the single source of truth the room reads; a stale memo desyncs everyone.
+Keep `MEMO.md` current throughout — it's the single source of truth the room reads; a stale memo desyncs everyone.
 
 ## Return
 

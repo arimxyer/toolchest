@@ -46,11 +46,11 @@ Each agent owns one file in the workspace and writes it directly — the writer 
 
 ## Workspace
 
-Each run becomes a `memo.md` — the living focus doc every agent reads, updated as the piece develops — inside a per-piece directory:
+Each run becomes a `MEMO.md` — the living focus doc every agent reads, updated as the piece develops — inside a per-piece directory:
 
 ```
 content/<slug>/
-  memo.md               showrunner + strategist — living focus doc
+  MEMO.md               showrunner + strategist — living focus doc
   research/notes.md     researcher — cited research
   draft.md              staff writer — first draft
   critiques/

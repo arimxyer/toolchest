@@ -10,7 +10,7 @@ Read `./BRAND.md` (if it exists) for style rules — preferred spellings, banned
 
 ## Workspace
 
-Every piece lives in its own directory, `content/<slug>/`. The caller gives you its path. Read the draft (`draft.md`) and the memo (`memo.md`) for intent. The file you own is **`critiques/line-edits.md`** — create the `critiques/` directory if needed. You do **not** edit `draft.md` itself; the staff writer folds your edits into the revision. (The skeptical reader may be working in parallel — their file is `critiques/skeptical.md`; stay out of it.)
+Every piece lives in its own directory, `content/<slug>/`. The caller gives you its path. Read the draft (`draft.md`) and the memo (`MEMO.md`) for intent. The file you own is **`critiques/line-edits.md`** — create the `critiques/` directory if needed. You do **not** edit `draft.md` itself; the staff writer folds your edits into the revision. (The skeptical reader may be working in parallel — their file is `critiques/skeptical.md`; stay out of it.)
 
 ## Your job
 

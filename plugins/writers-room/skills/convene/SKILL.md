@@ -38,7 +38,7 @@ Dispatch the `writers-room:showrunner` agent. In its prompt, give it:
 - the brand status — the `BRAND.md` path, or "no BRAND.md — proceed and flag",
 - the memo template path — `references/MEMO.template.md` sits alongside this skill; pass its absolute path.
 
-The showrunner opens the workspace, writes `memo.md`, and spawns the room — the researcher, writer, editors, and distribution editor each write their own artifact — then returns a summary. **You do not write any of these files.**
+The showrunner opens the workspace, writes `MEMO.md`, and spawns the room — the researcher, writer, editors, and distribution editor each write their own artifact — then returns a summary. **You do not write any of these files.**
 
 ## Step 3 — Relay
 
