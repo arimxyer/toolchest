@@ -66,7 +66,7 @@ Every agent reads a `BRAND.md` on each run to stay on voice. Its preferred home 
 
 `establish-brand` produces it three ways, depending on what the project already has:
 
-- **Discover** — when the plugin lands in an existing project, it scans for brand signals first (voice guides, style docs, published content, site copy) and offers to derive the brief from them.
+- **Discover** — when the plugin lands in an existing project, it scans for brand signals first (voice guides, style docs, published content, site copy) and, if the obvious scan misses, explores the repo where audience-facing prose actually hides (page components, meta descriptions, onboarding strings, README register) before deriving the brief from what it finds.
 - **Import** — point it at a brand/voice doc you already maintain; it maps the doc against the template, reports gaps, and either symlinks it (your doc stays the source of truth) or writes an adapted copy.
 - **Interview** — no existing identity: it interviews you section by section.
 

@@ -14,15 +14,29 @@ The preferred home is **`content/BRAND.md`** — next to the workspaces the room
 
 **If no BRAND.md exists, don't jump to the interview — scan the project for an existing brand identity first.** This plugin often lands in a project that already has one, written down or implied:
 
+**Quick scan** (cheap, name-based):
+
 - Glob for brand/voice docs by name: `**/brand*`, `**/voice*`, `**/style-guide*`, `**/tone*` (markdown, in the repo or an adjacent docs/vault directory the user mentions).
 - Look for published content: existing `content/`, `posts/`, `blog/`, `articles/` directories — published pieces *are* the voice, even if nobody wrote it down.
 - Look at site copy: about pages, landing pages, READMEs with audience-facing prose.
 
+**Deep exploration** (when the quick scan misses but you're in a real project — don't give up after one glob):
+
+1. **Identify what the project is.** Read the README and the manifest (`package.json`, `pyproject.toml`, `Cargo.toml`, site-framework config). The project type tells you where audience-facing prose hides.
+2. **Look where that type keeps its voice:**
+   - *Websites/apps:* page templates and components (hero copy, about-page strings), `og:description` / `<meta name="description">` / `<title>` values, onboarding and empty-state strings, i18n string files, store listings.
+   - *Libraries/CLIs:* README prose register, `docs/` pages, the manifest's `description` field, CHANGELOG voice, even help text and error messages.
+   - *Monorepos:* a `marketing/`, `www/`, or `landing/` package.
+3. **Grep for prose density** — long string literals and markdown paragraphs are where copy lives; config keys like `description`, `tagline`, `subtitle` are cheap, high-signal targets.
+4. **For a large repo, delegate the sweep** to a read-only explore subagent and synthesize from its report — keep the main thread for the conversation with the user.
+
+Whatever you find, present it **with provenance** — "here's where your voice already lives," as a list of paths and one-line samples — before deriving anything. And if you genuinely find nothing, say what you scanned so the user knows the miss is real, not lazy.
+
 Then pick a lane:
 
 - **BRAND.md exists** → refresh (Lane 1).
-- **Scan found brand signals** → show the user what you found and offer to derive the brief from it — a named voice doc routes to import (Lane 2); published-content-only routes to import's adapted-copy path, where you *infer* the voice from the published pieces and the user corrects the draft (correcting beats authoring from nothing).
-- **Scan found nothing, but the user has a doc elsewhere** → ask: "Do you have a brand or voice doc outside this project — a vault, a Google Doc, an old guide?" → import (Lane 2).
+- **Scan or exploration found brand signals** → show the user what you found and offer to derive the brief from it — a named voice doc routes to import (Lane 2); prose-only signals (published pieces, site copy, README register) route to import's adapted-copy path, where you *infer* the voice from the found prose and the user corrects the draft (correcting beats authoring from nothing).
+- **Nothing found, but the user has a doc elsewhere** → ask: "Do you have a brand or voice doc outside this project — a vault, a Google Doc, an old guide?" → import (Lane 2).
 - **No identity anywhere** → interview (Lane 3).
 
 ## Lane 1 — Refresh
