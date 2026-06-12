@@ -56,6 +56,16 @@
         "name": "arimxyer"
       },
       "license": "Apache-2.0"
+    },
+    {
+      "name": "writers-room",
+      "source": "./plugins/writers-room",
+      "description": "Hand off a topic and get back a finished, on-brand piece (article, blog post, site copy), produced by a showrunner-led room of six editorial subagents — strategist, researcher, staff writer, line editor, skeptical reader, and distribution editor. Start with /writers-room:convene.",
+      "version": "1.0.0",
+      "author": {
+        "name": "arimxyer"
+      },
+      "license": "Apache-2.0"
     }
   ]
 }

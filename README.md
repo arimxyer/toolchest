@@ -31,6 +31,8 @@ npx skills add arimxyer/toolchest
 | `sudo-askpass` | `/sudo-askpass:sudo-askpass` | Help agents run sudo commands from non-interactive Linux sessions by detecting, configuring, and safely using askpass helpers |
 | `design-md` | `/design-md:design-md` | Author and convert DESIGN.md design systems — 8 section references, Tailwind v4/v3 conversion guide, worked examples, and a Python `theme.css` generator |
 | `ty-lsp` | — | Astral's ty language server for Python — real-time type-checking diagnostics via LSP (no slash command; starts automatically for `.py` files) |
+| `writers-room` | `/writers-room:convene` | Hand off a topic and get back a finished, on-brand piece, produced by a showrunner-led room of six editorial subagents (strategist, researcher, staff writer, line editor, skeptical reader, distribution editor); checks for a `BRAND.md` and helps create one |
+| ↳ | `/writers-room:establish-brand` | Create or refresh the `BRAND.md` brief the room writes to — interviews you for voice, audience, pillars, and examples |
 
 ## License
 
