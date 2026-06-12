@@ -6,7 +6,7 @@ argument-hint: <topic or rough brief>
 
 # convene
 
-The interactive front door to the writer's room. You gather a little context from the user, then hand the whole job to the `showrunner` agent, which produces the piece and writes every file. **This skill does not write or edit the content itself** — its only jobs are the brand check, the upfront interview, and relaying the result. (Want zero questions? The user can call `@agent-writers-room:showrunner <topic>` directly.)
+The interactive front door to the writer's room. You gather a little context from the user, then hand the whole job to the `showrunner` agent, which runs the room — each specialist writes its own artifact into the piece's workspace. **This skill does not write or edit the content itself** — its only jobs are the brand check, the upfront interview, and relaying the result. (Want zero questions? The user can call `@agent-writers-room:showrunner <topic>` directly.)
 
 ## Step 0 — Brand grounding
 
@@ -38,7 +38,7 @@ Dispatch the `writers-room:showrunner` agent. In its prompt, give it:
 - the brand status — the `BRAND.md` path, or "no BRAND.md — proceed and flag",
 - the memo template path — `references/MEMO.template.md` sits alongside this skill; pass its absolute path.
 
-The showrunner opens the workspace, writes `memo.md`, spawns the room, and writes the draft, critiques, final piece, and distribution package, then returns a summary. **You do not write any of these files.**
+The showrunner opens the workspace, writes `memo.md`, and spawns the room — the researcher, writer, editors, and distribution editor each write their own artifact — then returns a summary. **You do not write any of these files.**
 
 ## Step 3 — Relay
 

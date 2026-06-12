@@ -4,7 +4,7 @@ Hand off a topic and get back a finished, on-brand piece — drafted, edited, fa
 
 ## What It Does
 
-- **Takes a topic and produces a piece.** The `showrunner` agent runs the whole pipeline and writes every file — you hand off, it hands back a finished draft.
+- **Takes a topic and produces a piece.** The `showrunner` agent runs the pipeline; each specialist writes its own artifact — you hand off, the room hands back a finished draft.
 - **Grounds every piece in your brand** via a `BRAND.md` brief; helps you create one if it doesn't exist yet.
 - **Runs a six-agent room**: `editorial-strategist` → `researcher` → `staff-writer` → `line-editor` + `skeptical-reader` (parallel) → revision → `distribution-editor`.
 - **Collects every artifact in its own workspace** — `content/<slug>/` holds the memo, research, draft, critiques, final piece, and distribution package.
@@ -34,7 +34,7 @@ Set up or refresh your brand brief on its own:
 
 | Agent | Role |
 |-------|------|
-| `showrunner` | Supervisor — runs the pipeline, spawns the room, writes the workspace |
+| `showrunner` | Supervisor — opens the workspace, keeps the memo current, spawns and verifies the room |
 | `editorial-strategist` | Frames the piece — audience, angle, goal, outline |
 | `researcher` | Gathers cited facts, sources, and examples before drafting |
 | `staff-writer` | Drafts the full piece in your brand voice |
@@ -42,7 +42,7 @@ Set up or refresh your brand brief on its own:
 | `skeptical-reader` | Pressure-tests claims and clarity as a tough reader |
 | `distribution-editor` | Headlines, SEO meta, and social pull-quotes |
 
-The worker agents are read-only — they return their work as text. The `showrunner` is the only writer of files, which keeps the parallel critique step race-free. `convene` just runs the upfront interview and hands off; it doesn't write the piece.
+Each agent owns one file in the workspace and writes it directly — the writer writes the drafts, the editors file their critiques, the showrunner maintains the memo and verifies everything lands. The two parallel critics own separate files, so there's nothing to race. `convene` just runs the upfront interview and hands off; it doesn't write the piece.
 
 ## Workspace
 
@@ -50,14 +50,14 @@ Each run becomes a `memo.md` — the living focus doc every agent reads, updated
 
 ```
 content/<slug>/
-  memo.md               living focus doc (intake + decisions)
-  research/notes.md     cited research
-  draft.md              first draft
+  memo.md               showrunner + strategist — living focus doc
+  research/notes.md     researcher — cited research
+  draft.md              staff writer — first draft
   critiques/
-    line-edits.md
-    skeptical.md
-  <slug>.md             final piece
-  distribution.md       headlines / SEO / social
+    line-edits.md       line editor
+    skeptical.md        skeptical reader
+  <slug>.md             staff writer — final piece (revision pass)
+  distribution.md       distribution editor — headlines / SEO / social
 ```
 
 ## Brand brief
