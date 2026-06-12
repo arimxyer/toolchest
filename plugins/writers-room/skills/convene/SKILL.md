@@ -10,10 +10,10 @@ The interactive front door to the writer's room. You gather a little context fro
 
 ## Step 0 — Brand grounding
 
-Look for `BRAND.md` in the project root (and one level down, e.g. `content/BRAND.md`).
+Look for the brand brief: **`content/BRAND.md` first** (the preferred home — it lives next to the workspaces the room creates), then `./BRAND.md` at the project root.
 
-- **Missing:** offer to create one now via `/writers-room:establish-brand`. If declined, proceed but warn that brand alignment will be unverified.
-- **Present:** note its path — you'll pass it to the showrunner.
+- **Missing:** offer to create one now via `/writers-room:establish-brand` — which can interview the user *or* import a brand/voice doc they already have (mention both; an existing doc beats an interview). If declined, proceed but warn that brand alignment will be unverified.
+- **Present:** note its path — you'll pass it to the showrunner. If it's a symlink, that's expected (the import lane links vault-managed docs); pass the path as-is.
 
 ## Step 1 — Intake interview (front-load the questions)
 

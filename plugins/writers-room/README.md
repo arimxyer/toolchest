@@ -62,4 +62,12 @@ content/<slug>/
 
 ## Brand brief
 
-`establish-brand` writes a `BRAND.md` to your project from the template at [`skills/establish-brand/references/BRAND.template.md`](skills/establish-brand/references/BRAND.template.md) — voice, audience, content pillars, do's and don'ts, and example passages. Every agent reads it on each run to stay on voice.
+Every agent reads a `BRAND.md` on each run to stay on voice. Its preferred home is `content/BRAND.md` — next to the workspaces it governs — with the project root as fallback.
+
+`establish-brand` produces it three ways, depending on what the project already has:
+
+- **Discover** — when the plugin lands in an existing project, it scans for brand signals first (voice guides, style docs, published content, site copy) and offers to derive the brief from them.
+- **Import** — point it at a brand/voice doc you already maintain; it maps the doc against the template, reports gaps, and either symlinks it (your doc stays the source of truth) or writes an adapted copy.
+- **Interview** — no existing identity: it interviews you section by section.
+
+The template at [`skills/establish-brand/references/BRAND.template.md`](skills/establish-brand/references/BRAND.template.md) covers voice, audience, tone-by-context, vocabulary, no-go topics, on/off-voice example pairs, article structure, mechanics, and SEO/channels.

@@ -4,6 +4,7 @@
 
 **Stage:** <intake | researching | drafting | in review | final>
 **Slug:** <slug>
+**Brand brief:** <resolved BRAND.md path, or "none — unverified voice">
 
 ## The ask
 

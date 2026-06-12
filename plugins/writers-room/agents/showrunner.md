@@ -14,7 +14,7 @@ You'll be given a topic and, usually: intake answers (audience, goal, angle lean
 
 ## Brand
 
-Read `./BRAND.md` if it exists — it's the voice the room writes to (each specialist also reads it itself). If it's missing, proceed and flag that brand alignment is unverified.
+Resolve the brand brief once: use the path you were given; otherwise look for `content/BRAND.md`, then `./BRAND.md`. Read it — it's the voice the room writes to — and **pass the resolved path to every specialist you spawn** so nobody re-guesses the location. If none exists, proceed and flag that brand alignment is unverified. Record the resolved path (or "none") in the memo.
 
 ## Workspace
 
