@@ -33,6 +33,7 @@ npx skills add arimxyer/toolchest
 | `ty-lsp` | — | Astral's ty language server for Python — real-time type-checking diagnostics via LSP (no slash command; starts automatically for `.py` files) |
 | `writers-room` | `/writers-room:convene` | Hand off a topic and get back a finished, on-brand piece, produced by a showrunner-led room of six editorial subagents (strategist, researcher, staff writer, line editor, skeptical reader, distribution editor); checks for a `BRAND.md` and helps create one |
 | ↳ | `/writers-room:establish-brand` | Create or refresh the `BRAND.md` brief the room writes to — interviews you for voice, audience, pillars, and examples |
+| `dioxus` | `/dioxus:dioxus` | Documentation router for Dioxus (Rust cross-platform GUI framework) — maps every 0.7 guide page to its fetchable source (llms.txt, raw markdown, docs.rs), version-aware, with an inline 0.7 gotchas cheat-sheet |
 
 ## License
 

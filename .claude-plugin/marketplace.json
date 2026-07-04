@@ -66,6 +66,16 @@
         "name": "arimxyer"
       },
       "license": "Apache-2.0"
+    },
+    {
+      "name": "dioxus",
+      "source": "./plugins/dioxus",
+      "description": "Documentation router for Dioxus, the Rust cross-platform GUI framework — maps every 0.7 guide page to its fetchable source (llms.txt, raw markdown, docs.rs) for on-demand lookup, is version-aware, and carries an inline 0.7 gotchas cheat-sheet.",
+      "version": "1.0.0",
+      "author": {
+        "name": "arimxyer"
+      },
+      "license": "Apache-2.0"
     }
   ]
 }
