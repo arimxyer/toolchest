@@ -25,6 +25,16 @@ Three files must stay in sync; nothing enforces it automatically:
 
 Use `/scaffold-plugin <name>` instead of hand-editing. For adding a skill *inside* an existing plugin, also update that plugin's own `README.md` skill table.
 
+## Smoke-testing a plugin skill
+
+Run the skill from a throwaway dir against the plugin dir with `claude -p`. Two harness gotchas that produce false negatives (verified 2026-07-04 on haiku while building `dioxus`):
+
+- **Invoke via the slash command AND put `Skill` in `--allowedTools`.** A plain prompt relying on auto-trigger is unreliable on small models — the skill silently never fires and the model freelances (looks like a plugin bug, isn't). The explicit form `/<plugin>:<skill> <args>` makes it deterministic, but the model can only call the skill if `Skill` is in the allowlist. (The `writers-room` note below uses a plain prompt; that can work, but prefer the explicit form when you need certainty the skill ran.)
+- **Add `--strict-mcp-config`** to block MCP servers inherited from your user config. Otherwise the model may reach for an optional accelerator (e.g. context7) instead of exercising the plugin's own self-contained path — and then get permission-blocked on a tool the test never allowed.
+- Grant only the tools the skill's workflow actually needs. To confirm it *routed* (not just answered from model priors), parse `--output-format stream-json` for the `tool_use` calls and check it read the skill's own reference files / fetched the expected source.
+
+Example: `claude -p "/dioxus:dioxus <question>" --plugin-dir plugins/dioxus --model claude-haiku-4-5 --allowedTools "Skill,Read,WebFetch,Bash,Grep" --strict-mcp-config`.
+
 ## Plugin metadata conventions
 
 - **Owner**: `arimxyer` everywhere (`marketplace.json`, `plugin.json` `author.name`, `repository` URL). The local git user is `arimayer` — do not use it as the owner string. Copy from an existing `plugin.json`.
